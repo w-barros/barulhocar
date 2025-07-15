@@ -1,20 +1,21 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import { Play, Pause, Send } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import Navbar from "@/components/navbar"
+import { useState, useRef } from "react";
+import { Play, Pause, Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import Navbar from "@/components/navbar";
 
 // Array de aves com suas informações
 const birds = [
   {
     id: 1,
-    name: "Bem-te-vi",
-    scientificName: "Pitangus sulphuratus",
-    image: "/placeholder.svg?height=150&width=150",
-    backgroundColor: "#8B7355",
-    audioUrl: "/audio/bem-te-vi.mp3",
+    name: "Mockingbird",
+    scientificName: "Atticus Finch",
+    image: "https://i.imgur.com/onyxIdq.png?height=150&width=150",
+    backgroundColor: "#606C38",
+    audioUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/a/aa/Pitangus-3.ogg",
   },
   {
     id: 2,
@@ -72,36 +73,36 @@ const birds = [
     backgroundColor: "#A0522D",
     audioUrl: "/audio/pardal.mp3",
   },
-]
+];
 
 export default function HomePage() {
-  const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const playBirdSound = (birdId: number, audioUrl: string) => {
     if (currentlyPlaying === birdId) {
       // Pausar se já estiver tocando
       if (audioRef.current) {
-        audioRef.current.pause()
-        setCurrentlyPlaying(null)
+        audioRef.current.pause();
+        setCurrentlyPlaying(null);
       }
     } else {
       // Parar áudio anterior se houver
       if (audioRef.current) {
-        audioRef.current.pause()
+        audioRef.current.pause();
       }
 
       // Tocar novo áudio
-      audioRef.current = new Audio(audioUrl)
-      audioRef.current.play().catch(console.error)
-      setCurrentlyPlaying(birdId)
+      audioRef.current = new Audio(audioUrl);
+      audioRef.current.play().catch(console.error);
+      setCurrentlyPlaying(birdId);
 
       // Reset quando terminar
       audioRef.current.onended = () => {
-        setCurrentlyPlaying(null)
-      }
+        setCurrentlyPlaying(null);
+      };
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-[#283618]">
@@ -120,10 +121,16 @@ export default function HomePage() {
             <p className="text-lg md:text-xl text-white mb-4 leading-relaxed">
               Estas e outras espécies vivem aqui neste jardim e pela vizinhança.
             </p>
-            <p className="text-lg md:text-xl text-white mb-6 leading-relaxed">Quantos você consegue encontrar?</p>
+            <p className="text-lg md:text-xl text-white mb-6 leading-relaxed">
+              Quantos você consegue encontrar?
+            </p>
             <div className="bg-orange-100 p-4 rounded-lg border-l-4 border-orange-500">
-              <p className="text-orange-800 font-medium">• Cada árvore é um lar. Todo verde importa •</p>
-              <p className="text-orange-700 text-sm mt-1">♡ Espalhe vida, plante uma árvore ♡</p>
+              <p className="text-orange-800 font-medium">
+                • Cada árvore é um lar. Todo verde importa •
+              </p>
+              <p className="text-orange-700 text-sm mt-1">
+                ♡ Espalhe vida, plante uma árvore ♡
+              </p>
             </div>
           </div>
         </div>
@@ -152,7 +159,11 @@ export default function HomePage() {
                       variant="secondary"
                       className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     >
-                      {currentlyPlaying === bird.id ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                      {currentlyPlaying === bird.id ? (
+                        <Pause className="h-4 w-4" />
+                      ) : (
+                        <Play className="h-4 w-4" />
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -160,8 +171,12 @@ export default function HomePage() {
 
               {/* Bird Info */}
               <div className="p-3 pt-0">
-                <h3 className="font-bold text-white text-sm mb-1 text-center">{bird.name}</h3>
-                <p className="text-white text-xs text-center opacity-90 italic">{bird.scientificName}</p>
+                <h3 className="font-bold text-white text-sm mb-1 text-center">
+                  {bird.name}
+                </h3>
+                <p className="text-white text-xs text-center opacity-90 italic">
+                  {bird.scientificName}
+                </p>
               </div>
             </Card>
           ))}
@@ -169,9 +184,12 @@ export default function HomePage() {
 
         {/* Call to Action */}
         <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Viu alguma dessas aves por aí?</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            Viu alguma dessas aves por aí?
+          </h3>
           <p className="text-gray-600 mb-6">
-            Compartilhe conosco e ajude nossa comunidade a conhecer melhor a vida selvagem local!
+            Compartilhe conosco e ajude nossa comunidade a conhecer melhor a
+            vida selvagem local!
           </p>
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSfM7uZSq3dv0_6XMHegLfExPrAqbmQprLAAfpJ4Si0MummeA/viewform"
@@ -185,5 +203,5 @@ export default function HomePage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
