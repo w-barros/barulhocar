@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { Play, Pause } from "lucide-react"
+import { Play, Pause, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Navbar from "@/components/navbar"
@@ -168,20 +168,20 @@ export default function HomePage() {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-12">
-          <p className="text-white mb-4">Viu alguma dessas aves por aí? Compartilhe conosco!</p>
-          <Button
-            asChild
-            className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-semibold"
+        <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">Viu alguma dessas aves por aí?</h3>
+          <p className="text-gray-600 mb-6">
+            Compartilhe conosco e ajude nossa comunidade a conhecer melhor a vida selvagem local!
+          </p>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfM7uZSq3dv0_6XMHegLfExPrAqbmQprLAAfpJ4Si0MummeA/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center space-x-2 bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors"
           >
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSfM7uZSq3dv0_6XMHegLfExPrAqbmQprLAAfpJ4Si0MummeA/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Mande seu Registro
-            </a>
-          </Button>
+            <Send className="h-5 w-5" />
+            <span>Mande seu Registro</span>
+          </a>
         </div>
       </main>
     </div>
