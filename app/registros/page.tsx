@@ -1,13 +1,14 @@
-import { Calendar, User, ImageIcon } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import Navbar from "@/components/navbar"
+import { Calendar, User, ImageIcon } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import Navbar from "@/components/navbar";
 
 // Dados de exemplo para os registros
 const registros = [
   {
     id: 1,
-    imagem: "/placeholder.svg?height=200&width=300",
+    imagem:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Great_kiskadee_%2870240%29.jpg/500px-Great_kiskadee_%2870240%29.jpg?height=200&width=300",
     texto:
       "Avistei um lindo bem-te-vi no quintal de casa hoje pela manhã. Ele estava cantando muito alto e parecia estar defendendo seu território.",
     data: "15 de Julho, 2024",
@@ -24,7 +25,8 @@ const registros = [
   {
     id: 3,
     imagem: "/placeholder.svg?height=200&width=300",
-    texto: "João-de-barro terminou de construir sua casa de barro na cerca. O trabalho deles é impressionante!",
+    texto:
+      "João-de-barro terminou de construir sua casa de barro na cerca. O trabalho deles é impressionante!",
     data: "10 de Julho, 2024",
     autor: "Ana Costa",
   },
@@ -36,7 +38,7 @@ const registros = [
     data: "8 de Julho, 2024",
     autor: "Pedro Oliveira",
   },
-]
+];
 
 export default function RegistrosPage() {
   return (
@@ -45,9 +47,12 @@ export default function RegistrosPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#F39200] mb-4">Ver Registros</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-[#F39200] mb-4">
+            Ver Registros
+          </h1>
           <p className="text-lg text-white max-w-2xl mx-auto">
-            Confira os avistamentos e registros compartilhados pela nossa comunidade de observadores de aves.
+            Confira os avistamentos e registros compartilhados pela nossa
+            comunidade de observadores de aves.
           </p>
         </div>
 
@@ -79,7 +84,9 @@ export default function RegistrosPage() {
                         </div>
                       </div>
 
-                      <p className="text-gray-700 leading-relaxed text-lg">{registro.texto}</p>
+                      <p className="text-gray-700 leading-relaxed text-lg">
+                        {registro.texto}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -93,8 +100,12 @@ export default function RegistrosPage() {
 
         {/* Call to Action */}
         <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Tem um registro para compartilhar?</h3>
-          <p className="text-gray-600 mb-6">Ajude nossa comunidade a conhecer melhor a vida selvagem local!</p>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            Tem um registro para compartilhar?
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Ajude nossa comunidade a conhecer melhor a vida selvagem local!
+          </p>
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSfM7uZSq3dv0_6XMHegLfExPrAqbmQprLAAfpJ4Si0MummeA/viewform"
             target="_blank"
@@ -107,5 +118,5 @@ export default function RegistrosPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
