@@ -23,7 +23,8 @@ const birds = [
     scientificName: "Turdus rufiventris",
     image: "/placeholder.svg?height=150&width=150",
     backgroundColor: "#A0522D",
-    audioUrl: "/audio/sabia-laranjeira.mp3",
+    audioUrl:
+      "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/531/135462_a59a25ae326ea52f5c8d85e154688dbc.mp3",
   },
   {
     id: 3,
