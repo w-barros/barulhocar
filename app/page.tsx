@@ -47,7 +47,7 @@ const birds = [
     id: 5,
     name: "arara canindé",
     scientificName: "Ara ararauna",
-    image: "https://imgur.com/a/mq2wpjA?height=150&width=150",
+    image: "https://imgur.com/a/mq2wpjA.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/121/121738_9e3d7eb8c6ee0bf2aaecdb0a2099fca2.mp3",
