@@ -6,76 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/navbar";
 
-// Array de aves com suas informações
-// const birds = [
-//   {
-//     id: 1,
-//     name: "Mockingbird",
-//     scientificName: "Atticus Finch",
-//     image: "https://i.imgur.com/onyxIdq.png?height=150&width=150",
-//     backgroundColor: "#606C38",
-//     audioUrl:
-//       "https://upload.wikimedia.org/wikipedia/commons/a/aa/Pitangus-3.ogg",
-//   },
-//   {
-//     id: 2,
-//     name: "Sabiá-laranjeira",
-//     scientificName: "Turdus rufiventris",
-//     image: "/placeholder.svg?height=150&width=150",
-//     backgroundColor: "#A0522D",
-//     audioUrl:
-//       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/531/135462_a59a25ae326ea52f5c8d85e154688dbc.mp3",
-//   },
-//   {
-//     id: 3,
-//     name: "João-de-barro",
-//     scientificName: "Furnarius rufus",
-//     image: "/placeholder.svg?height=150&width=150",
-//     backgroundColor: "#CD853F",
-//     audioUrl: "/audio/joao-de-barro.mp3",
-//   },
-//   {
-//     id: 4,
-//     name: "Curió",
-//     scientificName: "Sporophila angolensis",
-//     image: "/placeholder.svg?height=150&width=150",
-//     backgroundColor: "#8FBC8F",
-//     audioUrl: "/audio/curio.mp3",
-//   },
-//   {
-//     id: 5,
-//     name: "Canário-da-terra",
-//     scientificName: "Sicalis flaveola",
-//     image: "/placeholder.svg?height=150&width=150",
-//     backgroundColor: "#DAA520",
-//     audioUrl: "/audio/canario-da-terra.mp3",
-//   },
-//   {
-//     id: 6,
-//     name: "Sabiá-poca",
-//     scientificName: "Turdus amaurochalinus",
-//     image: "/placeholder.svg?height=150&width=150",
-//     backgroundColor: "#696969",
-//     audioUrl: "/audio/sabia-poca.mp3",
-//   },
-//   {
-//     id: 7,
-//     name: "Tico-tico",
-//     scientificName: "Zonotrichia capensis",
-//     image: "/placeholder.svg?height=150&width=150",
-//     backgroundColor: "#8B4513",
-//     audioUrl: "/audio/tico-tico.mp3",
-//   },
-//   {
-//     id: 8,
-//     name: "Pardal",
-//     scientificName: "Passer domesticus",
-//     image: "/placeholder.svg?height=150&width=150",
-//     backgroundColor: "#A0522D",
-//     audioUrl: "/audio/pardal.mp3",
-//   },
-// ];
-
 const birds = [
   {
     id: 1,
@@ -279,7 +209,7 @@ const birds = [
     id: 23,
     name: "gaturamo verdadeiro",
     scientificName: "Euphonia violacea",
-    image: "https://i.imgur.com/FhAcBcF.png?height=150&width=150",
+    image: "https://i.imgur.com/PR1zUjQ.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/22/22174_a3c425cefc7b796774eda6bf8b98135f.mp3",
