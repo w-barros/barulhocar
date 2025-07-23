@@ -173,7 +173,7 @@ const birds = [
     id: 19,
     name: "coruja buraqueira",
     scientificName: "Athene cunicularia",
-    image: "https://i.imgur.com/CnUbK9v.png?height=150&width=150",
+    image: "https://i.imgur.com/0H5Y2XH.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/44/44030_af64b0a274613c8d9326d539d742dad2.mp3",
