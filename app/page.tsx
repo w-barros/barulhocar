@@ -209,7 +209,7 @@ const birds = [
     id: 23,
     name: "gaturamo verdadeiro",
     scientificName: "Euphonia violacea",
-    image: "https://i.imgur.com/PR1zUjQ.png?height=150&width=150",
+    image: "https://i.imgur.com/FhAcBcF.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/22/22174_a3c425cefc7b796774eda6bf8b98135f.mp3",
