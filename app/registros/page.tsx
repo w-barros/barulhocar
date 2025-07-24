@@ -47,7 +47,7 @@ export default function RegistrosPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#F39200] mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#F39200] mb-4 font-cursive">
             Ver Registros
           </h1>
           <p className="text-lg text-white max-w-2xl mx-auto">

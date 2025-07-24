@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +12,14 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .font-cursive {
+    font-family: "Great Vibes", cursive !important;
+  }
+}
+
+.font-cursive {
+  font-family: "Great Vibes", cursive;
 }
 
 @layer base {

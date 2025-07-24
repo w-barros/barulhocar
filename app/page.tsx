@@ -457,10 +457,10 @@ export default function HomePage() {
       <main className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12 lg:text-left lg:mb-16">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#F39200] mb-4 font-serif italic cursive">
+          <h1 className="font-cursive text-4xl md:text-6xl lg:text-7xl text-[#F39200] mb-4 ">
             Conheça seus
           </h1>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#F39200] mb-6 font-serif italic cursive">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl text-[#F39200] mb-6 font-cursive">
             Vizinhos
           </h1>
           <div className="max-w-2xl mx-auto lg:mx-0">
