@@ -56,7 +56,7 @@ const birds = [
     id: 6,
     name: "alma-de-gato",
     scientificName: "Piaya cayana",
-    image: "https://i.imgur.com/zzERdi7.png?height=150&width=150",
+    image: "https://i.imgur.com/TbzPGF1.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/091/190305_1ac48d69544199d8e073fef8580ad1ff.mp3",
@@ -92,7 +92,7 @@ const birds = [
     id: 10,
     name: "beija flor tesoura",
     scientificName: "Eupetomena macroura",
-    image: "https://i.imgur.com/JazpaM1.png?height=150&width=150",
+    image: "https://i.imgur.com/8RFLpcK.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/85/58806_c6e22554811469a186b9a7c9f9fa05e2.mp3",
@@ -101,7 +101,7 @@ const birds = [
     id: 11,
     name: "beija-flor de gargante verde",
     scientificName: "Chionomesa fimbriata",
-    image: "https://i.imgur.com/drl2Aeu.png?height=150&width=150",
+    image: "https://i.imgur.com/LTtbXp3.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/281/182130_aca0e1e52475674c9164ed1c6dce7f61.mp3",
@@ -245,7 +245,7 @@ const birds = [
     id: 27,
     name: "periquito maracanã",
     scientificName: "Psittacara leucophthalmus",
-    image: "https://i.imgur.com/LcoL0XD.png?height=150&width=150",
+    image: "https://i.imgur.com/QHKDPgW.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/781/187809_c3e00262fdd00720e8f67e97ae49b402.mp3",
@@ -272,7 +272,7 @@ const birds = [
     id: 30,
     name: "pomba galega",
     scientificName: "Patagioenas cayennensis",
-    image: "https://i.imgur.com/ocNJS15.png?height=150&width=150",
+    image: "https://i.imgur.com/BUSHn2i.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/54/45066_7b19c63ea9522da415e6dc7f584f2646.mp3",
