@@ -272,7 +272,7 @@ const birds = [
     id: 30,
     name: "pomba galega",
     scientificName: "Patagioenas cayennensis",
-    image: "https://i.imgur.com/ocNJS15.png?height=150&width=150",
+    image: "https://i.imgur.com/BUSHn2i.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/54/45066_7b19c63ea9522da415e6dc7f584f2646.mp3",
