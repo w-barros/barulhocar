@@ -56,7 +56,7 @@ const birds = [
     id: 6,
     name: "alma-de-gato",
     scientificName: "Piaya cayana",
-    image: "https://i.imgur.com/zzERdi7.png?height=150&width=150",
+    image: "https://i.imgur.com/TbzPGF1.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/091/190305_1ac48d69544199d8e073fef8580ad1ff.mp3",
