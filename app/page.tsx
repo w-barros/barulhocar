@@ -227,7 +227,7 @@ const birds = [
     id: 25,
     name: "pardal",
     scientificName: "Passer domesticus",
-    image: "https://i.imgur.com/BiHfz3q.png?height=150&width=150",
+    image: "https://i.imgur.com/q0swVnA.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/931/139300_475ebd5e2692c88245389aa4cc4ac0e1.mp3",
@@ -290,7 +290,7 @@ const birds = [
     id: 32,
     name: "rolinha roxa",
     scientificName: "Columbina talpacoti",
-    image: "https://i.imgur.com/jRIFeWv.png?height=150&width=150",
+    image: "https://i.imgur.com/oO2JdRE.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/85/58792_ad14e7f3ea245c3926706385b84340a4.mp3",
@@ -336,7 +336,7 @@ const birds = [
     name: "calango do cerrado",
     scientificName: "Tropidurus torquatus",
     image: "https://i.imgur.com/FK9jEDI.png?height=150&width=150",
-    backgroundColor: "#DDA15E",
+    backgroundColor: "#7a644bff",
     audioUrl: "",
   },
   {
@@ -416,7 +416,7 @@ const birds = [
     name: "sarue",
     scientificName: "Didelphis aurita",
     image: "https://i.imgur.com/sgUQOy1.png?height=150&width=150",
-    backgroundColor: "#DDA15E",
+    backgroundColor: "#7a644bff",
     audioUrl: "",
   },
 ];
