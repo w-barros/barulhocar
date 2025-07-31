@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Vida Vizinha - Conheça seus Vizinhos",
   icons: {
-    icon: "favicon.ico",
+    icon: "/favicon.ico",
     shortcut: "/favicon.ico",
   },
   description:
