@@ -83,7 +83,7 @@ const birds = [
     id: 9,
     name: "balança rabo de máscara",
     scientificName: "Polioptila dumicola",
-    image: "https://i.imgur.com/MyJ7EL0.png?height=150&width=150",
+    image: "https://i.imgur.com/3WMH7R0.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/881/188880_f83e2a627ece95dc090bb56cdb6b8ae9.mp3",
@@ -128,7 +128,7 @@ const birds = [
     id: 14,
     name: "canário da terra",
     scientificName: "Sicalis flaveola",
-    image: "https://i.imgur.com/O9zZ9JK.png?height=150&width=150",
+    image: "https://i.imgur.com/mFcHpMK.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/221/122476_5ed1d7842d2f179a53091e450aa5dd2f.mp3",
@@ -137,7 +137,7 @@ const birds = [
     id: 15,
     name: "canário rasteiro",
     scientificName: "Sicalis citrina",
-    image: "https://i.imgur.com/ehlcdaR.png?height=150&width=150",
+    image: "https://i.imgur.com/pyZOPxw.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/852/258206_e471cf76c93c5be5ef5ec14fd60eeb61.mp3",
@@ -155,7 +155,7 @@ const birds = [
     id: 17,
     name: "chupim",
     scientificName: "Molothrus bonariensis",
-    image: "https://i.imgur.com/YZvTjsE.png?height=150&width=150",
+    image: "https://i.imgur.com/7spP6Bz.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/993/399972_22279d39132a5e8bd1dd738ce8c33b9a.mp3",
@@ -218,7 +218,7 @@ const birds = [
     id: 24,
     name: "joão-de-barro",
     scientificName: "Furnarius rufus",
-    image: "https://i.imgur.com/84h9rww.png?height=150&width=150",
+    image: "https://i.imgur.com/QQFGlOd.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/64/46276_1cb15a237990c19c94ebe3e719f1dcc8.mp3",
