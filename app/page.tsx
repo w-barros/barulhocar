@@ -202,7 +202,7 @@ const birds = [
     id: 22,
     name: "falcão de coleira",
     scientificName: "Falco femoralis",
-    image: "https://i.imgur.com/6xIzFmN.png?height=150&width=150",
+    image: "https://i.imgur.com/f80yL5A.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/77/77956_45510e8d0e2335a9469b34670499dae9.mp3",
