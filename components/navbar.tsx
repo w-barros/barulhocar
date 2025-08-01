@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Send, List, Mail, Bird } from "lucide-react";
+import { Home, Send, List, Mail, Bird, Camera, Images } from "lucide-react";
 import { useState } from "react";
 
 export default function Navbar() {
@@ -12,10 +12,10 @@ export default function Navbar() {
     {
       href: "https://forms.gle/AbARPenENbGMfiaG6",
       label: "Mande seu Registro",
-      icon: Send,
+      icon: Camera,
       external: true,
     },
-    { href: "/registros", label: "Ver Registros", icon: List },
+    { href: "/registros", label: "Ver Registros", icon: Images },
     {
       href: "https://forms.gle/EvsQcFNwnF74px3R7",
       label: "Fale Conosco",

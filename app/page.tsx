@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, createRef } from "react";
-import { Volume2, VolumeX, Camera, Send } from "lucide-react";
+import { Volume2, VolumeX, Camera, VolumeOff, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/navbar";
@@ -637,7 +637,7 @@ export default function HomePage() {
                       onClick={() => playBirdSound(bird.id, bird.audioUrl)}
                     >
                       {currentlyPlaying === bird.id ? (
-                        <VolumeX className="h-4 w-4" />
+                        <VolumeOff className="h-4 w-4" />
                       ) : (
                         <Volume2 className="h-4 w-4" />
                       )}
