@@ -299,7 +299,7 @@ const birds = [
     id: 33,
     name: "sabiá barranco",
     scientificName: "Turdus leucomelas",
-    image: "https://i.imgur.com/ad7Cd8H.png?height=150&width=150",
+    image: "https://i.imgur.com/qXbaLBD.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/95/59262_19ac945396f16c6ebe133eff764cc9f0.mp3",
@@ -343,7 +343,7 @@ const birds = [
     id: 38,
     name: "sai andorinha",
     scientificName: "Tersina viridis",
-    image: "https://i.imgur.com/R6gE1nq.png?height=150&width=150",
+    image: "https://i.imgur.com/A7LM977.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/56/65071_9e9c27284a52a6ac40ee93e99c8f7e06.mp3",
@@ -352,7 +352,7 @@ const birds = [
     id: 39,
     name: "sai azul",
     scientificName: "Dacnis cayana",
-    image: "https://i.imgur.com/kSKziCP.png?height=150&width=150",
+    image: "https://i.imgur.com/XGqxoSu.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/85/58796_01d9914c8c29b1fd40cde778a13bc56a.mp3",
@@ -361,7 +361,7 @@ const birds = [
     id: 40,
     name: "saira amarela",
     scientificName: "Tangara cayana",
-    image: "https://i.imgur.com/8AS1Zoz.png?height=150&width=150",
+    image: "https://i.imgur.com/RjzSzIH.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/116/611061_2c8420de3f3d023377844789b0291509.mp3",
