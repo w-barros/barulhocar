@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/navbar";
 
+const a = ``;
+
 const birds = [
   {
     id: 1,

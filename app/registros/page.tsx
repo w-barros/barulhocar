@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/navbar";
 
-// Dados de exemplo para os registros
+// Dados de exemplo para os registros.
 const registros = [
   {
     id: 1,
