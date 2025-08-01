@@ -265,7 +265,7 @@ const birds = [
     id: 29,
     name: "pitiguari",
     scientificName: "Cyclarhis gujanensis",
-    image: "https://i.imgur.com/oEJ2f8r.png?height=150&width=150",
+    image: "https://i.imgur.com/WzqmwEi.png?height=150&width=150",
     backgroundColor: "#606C38",
     audioUrl:
       "https://s3.amazonaws.com/media.wikiaves.com.br/recordings/311/113498_d707060a612bd5e22a49062708d61ecf.mp3",
