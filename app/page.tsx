@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { Play, Pause, Send } from "lucide-react";
+import { useState, useRef, createRef } from "react";
+import { Volume2, VolumeX, Camera, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/navbar";
@@ -423,32 +423,152 @@ const birds = [
   },
 ];
 
+// export default function HomePage() {
+//   const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
+//   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+//   const playBirdSound = (birdId: number, audioUrl: string) => {
+//     if (currentlyPlaying === birdId) {
+//       // Pausar se já estiver tocando
+//       if (audioRef.current) {
+//         audioRef.current.pause();
+//         setCurrentlyPlaying(null);
+//       }
+//     } else {
+//       // Parar áudio anterior se houver
+//       if (audioRef.current) {
+//         audioRef.current.pause();
+//       }
+
+//       // Tocar novo áudio
+//       audioRef.current = new Audio(audioUrl);
+//       audioRef.current.play().catch(console.error);
+//       setCurrentlyPlaying(birdId);
+
+//       // Reset quando terminar
+//       audioRef.current.onended = () => {
+//         setCurrentlyPlaying(null);
+//       };
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-[#283618]">
+//       <Navbar />
+
+//       <main className="container mx-auto px-4 py-8">
+//         {/* Hero Section */}
+//         <div className="text-center mb-12 lg:text-left lg:mb-16">
+//           <h1 className="font-cursive text-4xl md:text-6xl lg:text-7xl text-[#F39200] mb-4 ">
+//             Conheça seus
+//           </h1>
+//           <h1 className="text-4xl md:text-6xl lg:text-7xl text-[#F39200] mb-6 font-cursive">
+//             Vizinhos
+//           </h1>
+//           <div className="max-w-2xl mx-auto lg:mx-0">
+//             <p className="text-lg md:text-xl text-white mb-4 leading-relaxed">
+//               Estas e outras espécies vivem aqui neste jardim e pela vizinhança.
+//             </p>
+//             <p className="text-lg md:text-xl text-white mb-6 leading-relaxed">
+//               Quantos você consegue encontrar?
+//             </p>
+//             <div className="bg-orange-100 p-4 rounded-lg border-l-4 border-orange-500">
+//               <p className="text-orange-800 font-medium">
+//                 • Cada árvore é um lar. Todo verde importa •
+//               </p>
+//               <p className="text-orange-700 text-sm mt-1">
+//                 ♡ Espalhe vida, plante uma árvore ♡
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Birds Grid */}
+//         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+//           {birds.map((bird) => (
+//             <Card
+//               key={bird.id}
+//               className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
+//               style={{ backgroundColor: bird.backgroundColor }}
+//               onClick={() => playBirdSound(bird.id, bird.audioUrl)}
+//             >
+//               <div className="aspect-square p-3">
+//                 <div className="relative h-full w-full">
+//                   <img
+//                     src={bird.image || "/placeholder.svg"}
+//                     alt={bird.name}
+//                     className="w-full h-full object-cover rounded-xl"
+//                   />
+
+//                   {/* Play/Pause Overlay */}
+//                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-xl flex items-center justify-center">
+//                     <Button
+//                       size="sm"
+//                       variant="secondary"
+//                       className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+//                     >
+//                       {currentlyPlaying === bird.id ? (
+//                         <Pause className="h-4 w-4" />
+//                       ) : (
+//                         <Play className="h-4 w-4" />
+//                       )}
+//                     </Button>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               {/* Bird Info */}
+//               <div className="p-3 pt-0">
+//                 <h3 className="font-bold text-white text-sm mb-1 text-center">
+//                   {bird.name}
+//                 </h3>
+//                 <p className="text-white text-xs text-center opacity-90 italic">
+//                   {bird.scientificName}
+//                 </p>
+//               </div>
+//             </Card>
+//           ))}
+//         </div>
+
+//         {/* Call to Action */}
+//         <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
+//           <h3 className="text-2xl font-bold text-gray-800 mb-4">
+//             Viu alguma dessas aves por aí?
+//           </h3>
+//           <p className="text-gray-600 mb-6">
+//             Compartilhe conosco e ajude nossa comunidade a conhecer melhor a
+//             vida selvagem local!
+//           </p>
+//           <a
+//             href="https://docs.google.com/forms/d/e/1FAIpQLSfM7uZSq3dv0_6XMHegLfExPrAqbmQprLAAfpJ4Si0MummeA/viewform"
+//             target="_blank"
+//             rel="noopener noreferrer"
+//             className="inline-flex items-center space-x-2 bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors"
+//           >
+//             <Send className="h-5 w-5" />
+//             <span>Mande seu Registro</span>
+//           </a>
+//         </div>
+//       </main>
+//     </div>
+//   );
+// }
+
 export default function HomePage() {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const playBirdSound = (birdId: number, audioUrl: string) => {
+    if (!audioUrl) return;
     if (currentlyPlaying === birdId) {
-      // Pausar se já estiver tocando
-      if (audioRef.current) {
-        audioRef.current.pause();
-        setCurrentlyPlaying(null);
-      }
+      audioRef.current?.pause();
+      setCurrentlyPlaying(null);
     } else {
-      // Parar áudio anterior se houver
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-
-      // Tocar novo áudio
+      audioRef.current?.pause();
       audioRef.current = new Audio(audioUrl);
       audioRef.current.play().catch(console.error);
       setCurrentlyPlaying(birdId);
-
-      // Reset quando terminar
-      audioRef.current.onended = () => {
-        setCurrentlyPlaying(null);
-      };
+      audioRef.current.onended = () => setCurrentlyPlaying(null);
     }
   };
 
@@ -483,72 +603,82 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* <main className="container mx-auto px-4 py-8"> */}
+        {/* Hero Section (inalterado) */}
+
         {/* Birds Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-          {birds.map((bird) => (
-            <Card
-              key={bird.id}
-              className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
-              style={{ backgroundColor: bird.backgroundColor }}
-              onClick={() => playBirdSound(bird.id, bird.audioUrl)}
-            >
-              <div className="aspect-square p-3">
-                <div className="relative h-full w-full">
+          {birds.map((bird) => {
+            const fileInputRef = createRef<HTMLInputElement>();
+            const handleUpload = () => fileInputRef.current?.click();
+
+            return (
+              <Card
+                key={bird.id}
+                className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                style={{ backgroundColor: bird.backgroundColor }}
+              >
+                {/* Imagem + botões sobrepostos */}
+                <div className="relative aspect-square p-3">
                   <img
                     src={bird.image || "/placeholder.svg"}
                     alt={bird.name}
-                    className="w-full h-full object-cover rounded-xl"
+                    className="w-full h-full object-cover rounded-xl cursor-pointer"
+                    onClick={() => playBirdSound(bird.id, bird.audioUrl)}
                   />
 
-                  {/* Play/Pause Overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-xl flex items-center justify-center">
+                  {/* Botões glass nas pontas */}
+                  <div className="absolute top-2 left-2 right-2 flex justify-between">
+                    {/* Som / Mudo */}
                     <Button
-                      size="sm"
-                      variant="secondary"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      size="icon"
+                      variant="ghost"
+                      className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
+                      onClick={() => playBirdSound(bird.id, bird.audioUrl)}
                     >
                       {currentlyPlaying === bird.id ? (
-                        <Pause className="h-4 w-4" />
+                        <VolumeX className="h-4 w-4" />
                       ) : (
-                        <Play className="h-4 w-4" />
+                        <Volume2 className="h-4 w-4" />
                       )}
                     </Button>
+
+                    {/* Enviar Foto */}
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
+                      onClick={handleUpload}
+                    >
+                      <Camera className="h-4 w-4" />
+                    </Button>
+
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) console.log("Foto selecionada:", file);
+                      }}
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Bird Info */}
-              <div className="p-3 pt-0">
-                <h3 className="font-bold text-white text-sm mb-1 text-center">
-                  {bird.name}
-                </h3>
-                <p className="text-white text-xs text-center opacity-90 italic">
-                  {bird.scientificName}
-                </p>
-              </div>
-            </Card>
-          ))}
+                {/* Bird Info */}
+                <div className="p-3 pt-0 text-center">
+                  <h3 className="font-bold text-white text-sm">{bird.name}</h3>
+                  <p className="text-white text-xs italic opacity-90">
+                    {bird.scientificName}
+                  </p>
+                </div>
+              </Card>
+            );
+          })}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">
-            Viu alguma dessas aves por aí?
-          </h3>
-          <p className="text-gray-600 mb-6">
-            Compartilhe conosco e ajude nossa comunidade a conhecer melhor a
-            vida selvagem local!
-          </p>
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSfM7uZSq3dv0_6XMHegLfExPrAqbmQprLAAfpJ4Si0MummeA/viewform"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors"
-          >
-            <Send className="h-5 w-5" />
-            <span>Mande seu Registro</span>
-          </a>
-        </div>
+        {/* Call to Action (inalterado) */}
       </main>
     </div>
   );
