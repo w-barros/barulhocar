@@ -10,7 +10,7 @@ export default function Navbar() {
   const navItems = [
     { href: "/", label: "Início", icon: Home },
     {
-      href: "https://forms.gle/AbARPenENbGMfiaG6",
+      href: "/registros/form",
       label: "Mande seu Registro",
       icon: Camera,
       external: true,
