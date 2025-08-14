@@ -8,35 +8,43 @@ const registros = [
   {
     id: 1,
     imagem:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Great_kiskadee_%2870240%29.jpg/500px-Great_kiskadee_%2870240%29.jpg?height=200&width=300",
+      "https://i.imgur.com/Lt0dqzg.jpeg/500px-Great_kiskadee_%2870240%29.jpg?height=200&width=300",
     texto:
-      "Avistei um lindo bem-te-vi no quintal de casa hoje pela manhã. Ele estava cantando muito alto e parecia estar defendendo seu território.",
-    data: "15 de Julho, 2024",
-    autor: "Maria Silva",
+      "Um balança-rabo-de- máscara veio inspecionar quando toquei o canto dele :)))",
+    data: "	14/08/2025",
+    autor: "ROSANA MEDEIROS",
   },
   {
     id: 2,
-    imagem: "/placeholder.svg?height=200&width=300",
+    imagem: "https://i.imgur.com/TVMQkBe.jpeg/placeholder.svg?height=200&width=300",
     texto:
-      "Família de sabiás-laranjeira construiu ninho na mangueira do jardim. É incrível observar como eles cuidam dos filhotes.",
-    data: "12 de Julho, 2024",
-    autor: "João Santos",
+      "Andanças pelo Guará 2.Mico estrela",
+    data: "13/08/2025",
+    autor: "Rosângela Medeiros",
   },
   {
     id: 3,
-    imagem: "/placeholder.svg?height=200&width=300",
+    imagem: "https://i.imgur.com/GcVNsYQ.jpeg/placeholder.svg?height=200&width=300",
     texto:
-      "João-de-barro terminou de construir sua casa de barro na cerca. O trabalho deles é impressionante!",
-    data: "10 de Julho, 2024",
-    autor: "Ana Costa",
+      "	Durante caminhada no Guará 2..Papagaio lindissimo",
+    data: "13/08/2025",
+    autor: "Rosângela Medeiros",
   },
   {
     id: 4,
-    imagem: "/placeholder.svg?height=200&width=300",
+    imagem: "https://i.imgur.com/iJSLuMU.jpeg/placeholder.svg?height=200&width=300",
     texto:
-      "Bando de tico-ticos visitando o comedouro que instalei na varanda. Eles vêm todos os dias no mesmo horário.",
-    data: "8 de Julho, 2024",
-    autor: "Pedro Oliveira",
+      "Bati essa foto de um pica- pau amarelo na minha caminhada diária no Guara 2. DF",
+    data: "13/08/2025",
+    autor: "Rosângela Medeiros",
+  },
+    {
+    id: 5,
+    imagem: "https://i.imgur.com/NGs8Nx8.jpeg/placeholder.svg?height=200&width=300",
+    texto:
+      "Tive uma conversa muito informativa com o serralheiro Raimundo e fomos acompanhados de perto por um canário da terra",
+    data: "11/08/2025",
+    autor: "Rosana",
   },
 ];
 
