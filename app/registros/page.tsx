@@ -98,22 +98,23 @@ export default function RegistrosPage() {
           ))}
         </div>
 
-        {/* Call to Action */}
+                {/* Call to Action */}
         <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
           <h3 className="text-2xl font-bold text-gray-800 mb-4">
-            Tem um registro para compartilhar?
+            Viu algum desses seus vizinhos por aí?
           </h3>
           <p className="text-gray-600 mb-6">
-            Ajude nossa comunidade a conhecer melhor a vida selvagem local!
+            Compartilhe e ajude a sua comunidade a conhecer melhor a
+            vida selvagem local!
           </p>
           <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSfM7uZSq3dv0_6XMHegLfExPrAqbmQprLAAfpJ4Si0MummeA/viewform"
+            href="https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center space-x-2 bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors"
           >
-            <ImageIcon className="h-5 w-5" />
-            <span>Enviar Registro</span>
+            <Camera className="h-5 w-5" />
+            <span>Mande seu Registro</span>
           </a>
         </div>
       </main>
