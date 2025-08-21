@@ -1,4 +1,4 @@
-import { Calendar, User, ImageIcon } from "lucide-react";
+import { Calendar, User, ImageIcon, Camera } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Navbar from "@/components/navbar";
