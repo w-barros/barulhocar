@@ -16,33 +16,35 @@ const registros = [
   },
   {
     id: 2,
-    imagem: "https://i.imgur.com/TVMQkBe.jpeg/placeholder.svg?height=200&width=300",
-    texto:
-      "Andanças pelo Guará 2.Mico estrela",
+    imagem:
+      "https://i.imgur.com/TVMQkBe.jpeg/placeholder.svg?height=200&width=300",
+    texto: "Andanças pelo Guará 2.Mico estrela",
     data: "13/08/2025",
     autor: "Rosângela Medeiros",
   },
   {
     id: 3,
-    imagem: "https://i.imgur.com/GcVNsYQ.jpeg/placeholder.svg?height=200&width=300",
-    texto:
-      "	Durante caminhada no Guará 2..Papagaio lindissimo",
+    imagem:
+      "https://i.imgur.com/GcVNsYQ.jpeg/placeholder.svg?height=200&width=300",
+    texto: "	Durante caminhada no Guará 2..Papagaio lindissimo",
     data: "13/08/2025",
     autor: "Rosângela Medeiros",
   },
   {
     id: 4,
-    imagem: "https://i.imgur.com/iJSLuMU.jpeg/placeholder.svg?height=200&width=300",
+    imagem:
+      "https://i.imgur.com/iJSLuMU.jpeg/placeholder.svg?height=200&width=300",
     texto:
       "Bati essa foto de um pica- pau amarelo na minha caminhada diária no Guara 2. DF",
     data: "13/08/2025",
     autor: "Rosângela Medeiros",
   },
-    {
+  {
     id: 5,
-    imagem: "https://i.imgur.com/NGs8Nx8.jpeg/placeholder.svg?height=200&width=300",
+    imagem:
+      "https://i.imgur.com/NGs8Nx8.jpeg/placeholder.svg?height=200&width=300",
     texto:
-      "Tive uma conversa muito informativa com o serralheiro Raimundo e fomos acompanhados de perto por um canário da terra",
+      "Tive uma conversa muito informativa com o serralheiro Raimundo e fomos acompanhados de perto por um canário da terra.",
     data: "11/08/2025",
     autor: "Rosana",
   },
@@ -106,14 +108,14 @@ export default function RegistrosPage() {
           ))}
         </div>
 
-                {/* Call to Action */}
+        {/* Call to Action */}
         <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
           <h3 className="text-2xl font-bold text-gray-800 mb-4">
             Viu algum desses seus vizinhos por aí?
           </h3>
           <p className="text-gray-600 mb-6">
-            Compartilhe e ajude a sua comunidade a conhecer melhor a
-            vida selvagem local!
+            Compartilhe e ajude a sua comunidade a conhecer melhor a vida
+            selvagem local!
           </p>
           <a
             href="https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U"
