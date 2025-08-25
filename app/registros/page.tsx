@@ -19,7 +19,7 @@ type Register = {
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vR3iDYlbrIQelEFX_bPTOc4j4HsRDErFUSNub2V_focul0exKh6eC9F6vISD0SgMCzeJlVqrSIOKbQO/pub?gid=0&single=true&output=csv";
 
-/** === Utilidades para CSV === */
+/* ================= Utilidades para CSV ================= */
 
 /** divide linha por vírgulas ignorando as que estão entre aspas */
 function safeSplitCSVLine(line: string): string[] {
@@ -30,7 +30,6 @@ function safeSplitCSVLine(line: string): string[] {
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (ch === '"') {
-      // aspas duplas dentro do campo ("") -> vira uma aspas
       if (insideQuotes && line[i + 1] === '"') {
         cur += '"';
         i++;
@@ -65,34 +64,43 @@ function parseBrDateTime(s: string): Date {
   );
 }
 
-/** === Google Drive helpers === */
+/* ================= Helpers para imagens (Drive/Photos) ================= */
 
-function getDriveId(url: string | null | undefined): string | null {
+/** tenta extrair ID do Drive a partir de diferentes formatos de URL */
+function extractDriveId(url?: string | null): string | null {
   if (!url) return null;
-  let m = url.match(/\/d\/([a-zA-Z0-9_-]{10,})/); // /file/d/<id>/view
+  // /file/d/ID/...
+  let m = url.match(/\/file\/d\/([a-zA-Z0-9_-]{10,})/);
   if (m?.[1]) return m[1];
-  m = url.match(/[?&]id=([a-zA-Z0-9_-]{10,})/); // ?id=<id>
+  // .../d/ID/...
+  m = url.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
+  if (m?.[1]) return m[1];
+  // ?id=ID
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
   if (m?.[1]) return m[1];
   return null;
 }
 
-/** preferido para <img src> */
-function driveDirectViewUrl(id: string) {
-  return `https://drive.google.com/uc?export=view&id=${id}`;
+/** gera uma lista de candidatos de URL "diretas" para usar no <img> */
+function driveUrlCandidates(raw?: string | null, size = 2000): string[] {
+  if (!raw) return ["/placeholder.svg"];
+  const id = extractDriveId(raw);
+  if (!id) {
+    // não é Drive → retorna a própria
+    return [raw];
+  }
+
+  // candidatos (ordem importa)
+  const lh3 = `https://lh3.googleusercontent.com/d/${id}=w${size}-h${size}-no`;
+  const view = `https://drive.google.com/uc?export=view&id=${id}`;
+  const thumb = `https://drive.google.com/thumbnail?id=${id}&sz=w${size}`;
+
+  // Se a original já era lh3, mantém como primeira
+  const base = [raw, lh3, view, thumb];
+  return Array.from(new Set(base)); // remove duplicadas mantendo a ordem
 }
 
-/** fallback se o direct view falhar */
-function driveThumbnailUrl(id: string, size = 1600) {
-  return `https://drive.google.com/thumbnail?id=${id}&sz=w${size}`;
-}
-
-/** Converte qualquer URL (Drive ou não) para algo exibível em <img> */
-function toDirectImageUrl(url: string): string {
-  const id = getDriveId(url);
-  return id ? driveDirectViewUrl(id) : url;
-}
-
-/** === Parser principal === */
+/* ================= Parser principal ================= */
 
 function parseRegistersCSV(csv: string): Register[] {
   const lines = csv.split(/\r?\n/).filter((l) => l.trim().length > 0);
@@ -111,7 +119,7 @@ function parseRegistersCSV(csv: string): Register[] {
       name: row["Seu Nome"],
       email: row["Seu E-mail"],
       comment: row["Fale um pouco sobre seu registro!"],
-      photoUrl: toDirectImageUrl(row["Registro (Foto)"]),
+      photoUrl: row["Registro (Foto)"],
       status: (row["Status"] || "").trim(),
     };
   });
@@ -124,7 +132,7 @@ async function loadRegisters(): Promise<Register[]> {
   return parseRegistersCSV(text);
 }
 
-/** === Página === */
+/* ================= Página ================= */
 
 export default function RegistrosPage() {
   const [registros, setRegistros] = React.useState<Register[]>([]);
@@ -146,6 +154,16 @@ export default function RegistrosPage() {
     })();
     return () => {
       cancelled = true;
+    };
+  }, []);
+
+  // CSS do backdrop do <dialog> (mova para seu CSS global se preferir)
+  React.useEffect(() => {
+    const style = document.createElement("style");
+    style.innerHTML = `dialog::backdrop { background: rgba(0,0,0,.82); }`;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
     };
   }, []);
 
@@ -180,65 +198,140 @@ export default function RegistrosPage() {
               </Card>
             )}
 
-            {registros.map((registro, index) => (
-              <div key={registro.id}>
-                <Card className="overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <CardContent className="p-0">
-                    <div className="md:flex">
-                      {/* Imagem */}
-                      <div className="md:w-1/3">
-                        <img
-                          src={registro.photoUrl || "/placeholder.svg"}
-                          alt={`Registro ${registro.id}`}
-                          className="w-full h-48 md:h-full object-cover"
-                          loading="lazy"
-                          referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            const el = e.currentTarget as HTMLImageElement;
-                            const id = getDriveId(registro.photoUrl);
-                            if (id && !el.dataset.fallbackTried) {
-                              el.dataset.fallbackTried = "1";
-                              el.src = driveThumbnailUrl(id, 1600);
-                            } else {
-                              el.src = "/placeholder.svg";
-                            }
-                          }}
-                        />
-                      </div>
+            {registros.map((registro, index) => {
+              const modalId = `dlg-${registro.id}`;
+              const srcCandidatesThumb = driveUrlCandidates(
+                registro.photoUrl,
+                1800
+              );
+              const srcCandidatesFull = driveUrlCandidates(
+                registro.photoUrl,
+                2400
+              );
 
-                      {/* Conteúdo */}
-                      <div className="md:w-2/3 p-6">
-                        <div className="flex items-center flex-wrap gap-4 text-sm text-gray-600 mb-4">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            <span>
-                              {registro.addedTime.toLocaleDateString("pt-BR", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                              })}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <User className="h-4 w-4" />
-                            <span>{registro.name}</span>
-                          </div>
+              return (
+                <div key={registro.id}>
+                  <Card className="overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <CardContent className="p-0">
+                      <div className="md:flex">
+                        {/* Imagem */}
+                        <div className="md:w-1/3">
+                          <img
+                            src={srcCandidatesThumb[0] || "/placeholder.svg"}
+                            data-try="0"
+                            alt={`Registro ${registro.id}`}
+                            className="w-full h-48 md:h-full object-cover cursor-zoom-in"
+                            loading="lazy"
+                            referrerPolicy="no-referrer"
+                            onClick={() => {
+                              const dlg = document.getElementById(
+                                modalId
+                              ) as HTMLDialogElement | null;
+                              if (
+                                !window.HTMLDialogElement ||
+                                !dlg?.showModal
+                              ) {
+                                // fallback: abre em nova aba se <dialog> não for suportado
+                                const currentSrc =
+                                  (event?.currentTarget as HTMLImageElement)
+                                    ?.src || srcCandidatesFull[0];
+                                window.open(
+                                  currentSrc,
+                                  "_blank",
+                                  "noopener,noreferrer"
+                                );
+                                return;
+                              }
+                              if (!dlg.open) dlg.showModal();
+                            }}
+                            onError={(e) => {
+                              const el = e.currentTarget as HTMLImageElement & {
+                                dataset: any;
+                              };
+                              const i = Number(el.dataset.try || "0");
+                              const tries = srcCandidatesThumb;
+                              if (i + 1 < tries.length) {
+                                el.dataset.try = String(i + 1);
+                                el.src = tries[i + 1];
+                              } else {
+                                el.src = "/placeholder.svg";
+                              }
+                            }}
+                          />
+
+                          {/* modal nativo */}
+                          <dialog
+                            id={modalId}
+                            className="p-0 bg-transparent"
+                            aria-label="Visualização da imagem"
+                            onClick={(e) => {
+                              // fecha se clicar fora da imagem
+                              if (e.target === e.currentTarget)
+                                (e.currentTarget as HTMLDialogElement).close();
+                            }}
+                          >
+                            <img
+                              src={srcCandidatesFull[0] || "/placeholder.svg"}
+                              data-try="0"
+                              alt={`Registro ${registro.id}`}
+                              className="max-h-[90vh] max-w-[90vw] object-contain rounded shadow-lg"
+                              loading="eager"
+                              referrerPolicy="no-referrer"
+                              onError={(e) => {
+                                const el =
+                                  e.currentTarget as HTMLImageElement & {
+                                    dataset: any;
+                                  };
+                                const i = Number(el.dataset.try || "0");
+                                const tries = srcCandidatesFull;
+                                if (i + 1 < tries.length) {
+                                  el.dataset.try = String(i + 1);
+                                  el.src = tries[i + 1];
+                                } else {
+                                  el.src = "/placeholder.svg";
+                                }
+                              }}
+                            />
+                          </dialog>
                         </div>
 
-                        <p className="text-gray-800 leading-relaxed text-lg">
-                          {registro.comment || "—"}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                        {/* Conteúdo */}
+                        <div className="md:w-2/3 p-6">
+                          <div className="flex items-center flex-wrap gap-4 text-sm text-gray-600 mb-4">
+                            <div className="flex items-center gap-1">
+                              <Calendar className="h-4 w-4" />
+                              <span>
+                                {registro.addedTime.toLocaleDateString(
+                                  "pt-BR",
+                                  {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <User className="h-4 w-4" />
+                              <span>{registro.name}</span>
+                            </div>
+                          </div>
 
-                {/* Separador entre cards */}
-                {index < registros.length - 1 && (
-                  <Separator className="my-8 bg-gray-200" />
-                )}
-              </div>
-            ))}
+                          <p className="text-gray-800 leading-relaxed text-lg">
+                            {registro.comment || "—"}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Separador entre cards */}
+                  {index < registros.length - 1 && (
+                    <Separator className="my-8 bg-gray-200" />
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
 
