@@ -182,11 +182,28 @@ export default function HomePage() {
                         accept="image/*"
                         capture="environment"
                         className="hidden"
-                        onChange={(e) => {
+                        onChange={async (e) => {
                           const file = e.target.files?.[0];
-                          if (file) {
+                          if (!file) return;
+
+                          try {
+                            if (
+                              navigator.canShare &&
+                              navigator.canShare({ files: [file] })
+                            ) {
+                              // Abre o share sheet (iOS/Android modernos)
+                              await navigator.share({
+                                files: [file],
+                                title: "Registro",
+                                text: "Salvar na galeria",
+                              });
+                            }
+                          } catch (err) {
+                            // usuário cancelou o compartilhamento — segue o fluxo mesmo assim
+                            console.debug("Share cancelado/indisponível", err);
+                          } finally {
                             window.location.href =
-                              "https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U?zf_enablecamera=true";
+                              "https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U";
                           }
                         }}
                       />
