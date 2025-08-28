@@ -220,57 +220,61 @@ export default function RegistrosPage() {
                     <CardContent className="p-0">
                       <div className="md:flex">
                         {/* Imagem */}
+                        {/* Imagem (altura/ratio padronizados) */}
                         <div className="md:w-1/3">
-                          <img
-                            src={srcCandidatesThumb[0] || "/placeholder.svg"}
-                            data-try="0"
-                            alt={`Registro ${registro.id}`}
-                            className="w-full h-48 md:h-full object-cover cursor-zoom-in"
-                            loading="lazy"
-                            referrerPolicy="no-referrer"
-                            onClick={() => {
-                              const dlg = document.getElementById(
-                                modalId
-                              ) as HTMLDialogElement | null;
-                              if (
-                                !window.HTMLDialogElement ||
-                                !dlg?.showModal
-                              ) {
-                                // fallback: abre em nova aba se <dialog> não for suportado
-                                const currentSrc =
-                                  (event?.currentTarget as HTMLImageElement)
-                                    ?.src || srcCandidatesFull[0];
-                                window.open(
-                                  currentSrc,
-                                  "_blank",
-                                  "noopener,noreferrer"
-                                );
-                                return;
-                              }
-                              if (!dlg.open) dlg.showModal();
-                            }}
-                            onError={(e) => {
-                              const el = e.currentTarget as HTMLImageElement & {
-                                dataset: any;
-                              };
-                              const i = Number(el.dataset.try || "0");
-                              const tries = srcCandidatesThumb;
-                              if (i + 1 < tries.length) {
-                                el.dataset.try = String(i + 1);
-                                el.src = tries[i + 1];
-                              } else {
-                                el.src = "/placeholder.svg";
-                              }
-                            }}
-                          />
+                          <div className="w-full h-56 md:h-72 overflow-hidden">
+                            {" "}
+                            {/* <- ajuste aqui */}
+                            <img
+                              src={srcCandidatesThumb[0] || "/placeholder.svg"}
+                              data-try="0"
+                              alt={`Registro ${registro.id}`}
+                              className="w-full h-full object-cover cursor-zoom-in" // <- preenche e corta
+                              loading="lazy"
+                              referrerPolicy="no-referrer"
+                              onClick={() => {
+                                const dlg = document.getElementById(
+                                  modalId
+                                ) as HTMLDialogElement | null;
+                                if (
+                                  !window.HTMLDialogElement ||
+                                  !dlg?.showModal
+                                ) {
+                                  const currentSrc =
+                                    (event?.currentTarget as HTMLImageElement)
+                                      ?.src || srcCandidatesFull[0];
+                                  window.open(
+                                    currentSrc,
+                                    "_blank",
+                                    "noopener,noreferrer"
+                                  );
+                                  return;
+                                }
+                                if (!dlg.open) dlg.showModal();
+                              }}
+                              onError={(e) => {
+                                const el =
+                                  e.currentTarget as HTMLImageElement & {
+                                    dataset: any;
+                                  };
+                                const i = Number(el.dataset.try || "0");
+                                const tries = srcCandidatesThumb;
+                                if (i + 1 < tries.length) {
+                                  el.dataset.try = String(i + 1);
+                                  el.src = tries[i + 1];
+                                } else {
+                                  el.src = "/placeholder.svg";
+                                }
+                              }}
+                            />
+                          </div>
 
-                          {/* modal nativo */}
+                          {/* modal nativo (mantém object-contain para ver a foto inteira) */}
                           <dialog
                             id={modalId}
                             className="p-0 bg-transparent"
                             aria-label="Visualização da imagem"
                             onClick={(e) => {
-                              // fecha se clicar fora da imagem
                               if (e.target === e.currentTarget)
                                 (e.currentTarget as HTMLDialogElement).close();
                             }}
