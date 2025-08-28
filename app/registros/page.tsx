@@ -129,7 +129,12 @@ async function loadRegisters(): Promise<Register[]> {
   const res = await fetch(CSV_URL, { cache: "no-store" });
   if (!res.ok) throw new Error(`Falha ao buscar CSV: ${res.status}`);
   const text = await res.text();
-  return parseRegistersCSV(text);
+  const regs = parseRegistersCSV(text);
+
+  // ordena do mais recente para o mais antigo
+  regs.sort((a, b) => b.addedTime.getTime() - a.addedTime.getTime());
+
+  return regs;
 }
 
 /* ================= Página ================= */
