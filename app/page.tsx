@@ -39,6 +39,19 @@ const parseCSV = (csv: string): Bird[] => {
   });
 };
 
+const saveLocallyThenRedirect = (file: File, url: string) => {
+  const blobUrl = URL.createObjectURL(file);
+  const a = document.createElement("a");
+  a.href = blobUrl;
+  a.download = `registro-${Date.now()}.jpg`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(blobUrl);
+  // pequeno delay para não interromper o download
+  setTimeout(() => (window.location.href = url), 400);
+};
+
 async function loadBirds(): Promise<Bird[]> {
   const res = await fetch(CSV_URL, { cache: "no-store" });
   if (!res.ok) throw new Error(`Falha ao buscar CSV: ${res.status}`);
@@ -185,26 +198,10 @@ export default function HomePage() {
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
-
-                          try {
-                            if (
-                              navigator.canShare &&
-                              navigator.canShare({ files: [file] })
-                            ) {
-                              // Abre o share sheet (iOS/Android modernos)
-                              await navigator.share({
-                                files: [file],
-                                title: "Registro",
-                                text: "Salvar na galeria",
-                              });
-                            }
-                          } catch (err) {
-                            // usuário cancelou o compartilhamento — segue o fluxo mesmo assim
-                            console.debug("Share cancelado/indisponível", err);
-                          } finally {
-                            window.location.href =
-                              "https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U";
-                          }
+                          saveLocallyThenRedirect(
+                            file,
+                            "https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U"
+                          );
                         }}
                       />
                     </div>
