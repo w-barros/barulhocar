@@ -21,7 +21,7 @@ export default function Navbar() {
     { label: "Mande seu Registro", icon: Camera, modal: true },
     { href: "/registros", label: "Ver Registros", icon: Images },
     {
-      href: "https://forms.gle/EvsQcFNwnF74px3R7",
+      href: "https://forms.zohopublic.com/vidavizinha1/form/FalacomigobbD/formperma/97Zjl4JGQS3gRxjc56xdmjLJNnlhyLauEZe9r2HyhRk",
       label: "Fale Conosco",
       icon: Mail,
       external: true,
