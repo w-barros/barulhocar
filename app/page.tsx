@@ -184,7 +184,10 @@ export default function HomePage() {
                         className="hidden"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
-                          if (file) console.log("Foto selecionada:", file);
+                          if (file) {
+                            window.location.href =
+                              "https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U?zf_enablecamera=true";
+                          }
                         }}
                       />
                     </div>
