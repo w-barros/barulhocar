@@ -7,13 +7,12 @@ import { Analytics } from "@vercel/analytics/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vida Vizinha - Conheça seus Vizinhos.",
+  title: "Barulho Car",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
   },
-  description:
-    "Descubra e aprenda sobre a natureza e vida animal na sua região.",
+  description: "Descubra e aprenda sobre barulhos no seu carro",
   generator: "v0.dev",
 };
 

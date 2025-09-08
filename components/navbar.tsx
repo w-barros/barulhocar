@@ -1,7 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Mail, Bird, Camera, Images } from "lucide-react";
+import {
+  Home,
+  Mail,
+  Bird,
+  Camera,
+  Images,
+  Car,
+  CarFront,
+  Share,
+  Share2,
+} from "lucide-react";
 import { useState } from "react";
 // shadcn/ui
 import {
@@ -16,10 +26,16 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: "Início", icon: Home },
+    { href: "/", label: "Compartilhar", icon: Share2 },
+    // { href: "/", label: "Facebook", icon: Share2 },
+    // { href: "/", label: "WhatsApp", icon: Share2 },
+    // { href: "/", label: "Instagram", icon: Share2 },
+    // { href: "/", label: "Início", icon: Home },
+    // { href: "/especies", label: "Espécies", icon: Bird },
+    // { href: "/sobre", label: "Sobre", icon: Car },
     // este vira o trigger do modal
-    { label: "Mande seu Registro", icon: Camera, modal: true },
-    { href: "/registros", label: "Ver Registros", icon: Images },
+    // { label: "Mande seu Registro", icon: Camera, modal: true },
+    // { href: "/registros", label: "Ver Registros", icon: Images },
     {
       href: "https://forms.zohopublic.com/vidavizinha1/form/FalacomigobbD/formperma/97Zjl4JGQS3gRxjc56xdmjLJNnlhyLauEZe9r2HyhRk",
       label: "Fale Conosco",
@@ -35,11 +51,11 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-[#283618] rounded-full flex items-center justify-center">
-                <Bird className="h-5 w-5 text-[#F39200]" />
+              <div className="w-8 h-8 bg-[#B81C1C] rounded-lg flex items-center justify-center">
+                <CarFront className="h-7 w-7 text-[#FFFFFF]" />
               </div>
-              <span className="font-bold text-lg md:text-xl text-gray-800">
-                Vida Vizinha
+              <span className="font-bold text-red-700 text-3xl md:text-3xl ">
+                Barulho Car
               </span>
             </Link>
 
@@ -52,7 +68,7 @@ export default function Navbar() {
                   return (
                     <Dialog key={item.label} open={open} onOpenChange={setOpen}>
                       <DialogTrigger asChild>
-                        <button className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors">
+                        <button className="flex items-center space-x-2 text-gray-600 hover:text-red-700 transition-colors">
                           <Icon className="h-4 w-4" />
                           <span>{item.label}</span>
                         </button>
@@ -89,7 +105,7 @@ export default function Navbar() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors"
+                      className="flex items-center space-x-2 text-gray-600 hover:text-red-700 transition-colors"
                     >
                       <Icon className="h-4 w-4" />
                       <span>{item.label}</span>
@@ -101,7 +117,7 @@ export default function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href!}
-                    className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors"
+                    className="flex items-center space-x-2 text-gray-600 hover:text-red-700 transition-colors"
                   >
                     <Icon className="h-4 w-4" />
                     <span>{item.label}</span>
@@ -120,7 +136,7 @@ export default function Navbar() {
                     <Dialog key={item.label} open={open} onOpenChange={setOpen}>
                       <DialogTrigger asChild>
                         <button
-                          className="p-2 text-gray-600 hover:text-orange-600 transition-colors"
+                          className="p-2 text-gray-600 hover:text-red-600 transition-colors"
                           title={item.label}
                         >
                           <Icon className="h-5 w-5" />
@@ -157,7 +173,7 @@ export default function Navbar() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 text-gray-600 hover:text-orange-600 transition-colors"
+                      className="p-2 text-gray-600 hover:text-red-600 transition-colors"
                       title={item.label}
                     >
                       <Icon className="h-5 w-5" />
@@ -169,7 +185,7 @@ export default function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href!}
-                    className="p-2 text-gray-600 hover:text-orange-600 transition-colors"
+                    className="p-2 text-gray-600 hover:text-red-600 transition-colors"
                     title={item.label}
                   >
                     <Icon className="h-5 w-5" />

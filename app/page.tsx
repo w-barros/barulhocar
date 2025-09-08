@@ -1,40 +1,104 @@
 "use client";
 
 import { useEffect, useRef, useState, createRef } from "react";
-import { Volume2, Camera, VolumeOff, Send } from "lucide-react";
+import { Volume2, VolumeOff, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/navbar";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
-type Bird = {
+type CarIssue = {
   id: number;
-  name: string;
-  scientificName: string;
+  part: string;
+  sector: string;
+  colorName: string; // hex do fundo
   image: string;
-  backgroundColor: string;
   audioUrl: string;
+  info: string;
 };
 
 const CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJLyYcCjsMSNc342wAvjS2Z1L1ii4-QsBT4Qkr25ADtm_ig4PjZkL6TTZCfHyIQA/pub?gid=1009587917&single=true&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSURYSnQEuzvHd2YaTx5WOz2_SWRz8WSJGR0S1XebMIACvozgZzdF8e9q7FTMZe_EOMu2F_QsW5h1P1/pub?output=csv";
 
-// parser simples (se tiver vírgulas dentro dos campos, considere PapaParse depois)
-const parseCSV = (csv: string): Bird[] => {
-  const [rawHeader, ...lines] = csv.split(/\r?\n/).filter(Boolean);
-  const headerLine = rawHeader.replace(/^\uFEFF/, ""); // remove BOM
-  const headers = headerLine.split(",");
-  return lines.map((line) => {
-    const cells = line.split(",");
-    const row = Object.fromEntries(
-      headers.map((h, i) => [h.trim(), (cells[i] || "").trim()])
-    ) as any;
+// --- utilitários: cores, parser e drive link ---
+const colorMap: Record<string, string> = {
+  vermelho: "#B81C1C",
+  amarelo: "#EAB308",
+  verde: "#16A34A",
+  azul: "#2563EB",
+  laranja: "#F97316",
+  roxo: "#7C3AED",
+  cinza: "#6B7280",
+  preto: "#111827",
+  branco: "#F3F4F6",
+};
+
+function driveViewToDirect(url: string): string {
+  if (!url) return url;
+  const m = url.match(/\/d\/([a-zA-Z0-9_-]{10,})\//);
+  return m ? `https://docs.google.com/uc?export=download&id=${m[1]}` : url;
+}
+
+function splitCSVLine(line: string): string[] {
+  const out: string[] = [];
+  let cur = "";
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        cur += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === "," && !inQuotes) {
+      out.push(cur);
+      cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  out.push(cur);
+  return out.map((s) => s.trim());
+}
+
+const parseCSV = (csv: string): CarIssue[] => {
+  const lines = csv.split(/\r?\n/).filter(Boolean);
+  if (!lines.length) return [];
+  const rawHeader = lines[0].replace(/^\uFEFF/, "");
+  const headers = splitCSVLine(rawHeader);
+
+  const idx = (n: string) => headers.findIndex((h) => h.trim() === n);
+  const idIdx = idx("id");
+  const partIdx = idx("CarPart");
+  const sectorIdx = idx("Sector");
+  const colorIdx = idx("Color");
+  const imgIdx = idx("Img");
+  const soundIdx = idx("Sound");
+  const infoIdx = idx("Info");
+
+  return lines.slice(1).map((line) => {
+    const cells = splitCSVLine(line);
+    const colorName = (cells[colorIdx] || "").toLowerCase();
+    const bg =
+      colorMap[colorName] ||
+      (/#([0-9a-f]{3}|[0-9a-f]{6})/i.test(colorName) ? colorName : "#0F172A");
+
     return {
-      id: Number(row.id),
-      name: row.name,
-      scientificName: row.scientificName,
-      image: row.image,
-      backgroundColor: row.backgroundColor || "#000000",
-      audioUrl: row.audioUrl,
+      id: Number(cells[idIdx] || 0),
+      part: cells[partIdx] || "",
+      sector: cells[sectorIdx] || "",
+      colorName: bg,
+      image: cells[imgIdx] || "",
+      audioUrl: driveViewToDirect(cells[soundIdx] || ""),
+      info: cells[infoIdx] || "",
     };
   });
 };
@@ -48,11 +112,10 @@ const saveLocallyThenRedirect = (file: File, url: string) => {
   a.click();
   a.remove();
   URL.revokeObjectURL(blobUrl);
-  // pequeno delay para não interromper o download
   setTimeout(() => (window.location.href = url), 400);
 };
 
-async function loadBirds(): Promise<Bird[]> {
+async function loadCarIssues(): Promise<CarIssue[]> {
   const res = await fetch(CSV_URL, { cache: "no-store" });
   if (!res.ok) throw new Error(`Falha ao buscar CSV: ${res.status}`);
   const text = await res.text();
@@ -60,19 +123,22 @@ async function loadBirds(): Promise<Bird[]> {
 }
 
 export default function HomePage() {
-  const [birds, setBirds] = useState<Bird[]>([]);
+  const [items, setItems] = useState<CarIssue[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const [selected, setSelected] = useState<CarIssue | null>(null);
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const data = await loadBirds();
-        if (!cancelled) setBirds(data);
+        const data = await loadCarIssues();
+        if (!cancelled) setItems(data);
       } catch (e: any) {
         if (!cancelled) setError(e?.message || "Erro ao carregar dados");
       } finally {
@@ -81,114 +147,121 @@ export default function HomePage() {
     })();
     return () => {
       cancelled = true;
-      // pausa se sair da página
       audioRef.current?.pause();
       audioRef.current = null;
     };
   }, []);
 
-  const playBirdSound = (birdId: number, audioUrl: string) => {
+  const playSound = (id: number, audioUrl: string) => {
     if (!audioUrl) return;
-    if (currentlyPlaying === birdId) {
+    if (currentlyPlaying === id) {
       audioRef.current?.pause();
       setCurrentlyPlaying(null);
     } else {
       audioRef.current?.pause();
       audioRef.current = new Audio(audioUrl);
       audioRef.current.play().catch(console.error);
-      setCurrentlyPlaying(birdId);
+      setCurrentlyPlaying(id);
       audioRef.current.onended = () => setCurrentlyPlaying(null);
     }
   };
 
+  const openInfo = (it: CarIssue) => {
+    setSelected(it);
+    setOpen(true);
+  };
+
   return (
-    <div className="min-h-screen bg-[#283618]">
+    <div className="min-h-screen bg-neutral-800">
       <Navbar />
 
       <main className="container mx-auto px-4 py-8">
         {/* Hero */}
         <div className="text-center mb-12 lg:text-left lg:mb-16">
-          <h1 className="font-cursive text-4xl md:text-6xl lg:text-7xl text-[#F39200] mb-4 ">
-            Conheça seus
+          <h1 className="text-4xl font-semibold md:text-5xl lg:text-7xl text-red-500 mb-4">
+            Barulho estranho no carro?
           </h1>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl text-[#F39200] mb-6 font-cursive">
-            Vizinhos
-          </h1>
-          <div className="max-w-2xl mx-auto lg:mx-0">
-            <p className="text-lg md:text-xl text-white mb-4 leading-relaxed">
-              Estas e outras espécies vivem aqui neste jardim e pela vizinhança.
-            </p>
-            <p className="text-lg md:text-xl text-white mb-6 leading-relaxed">
-              Quantos você consegue encontrar?
-            </p>
-            <div className="bg-orange-100 p-4 rounded-lg border-l-4 border-orange-500">
-              <p className="text-orange-800 font-medium">
-                • Cada árvore é um lar. Todo verde importa •
-              </p>
-              <p className="text-orange-700 text-sm mt-1">
-                ♡ Espalhe vida, plante uma árvore ♡
-              </p>
-            </div>
-          </div>
+          <p className="text-white/80 max-w-2xl">
+            Clique no cartão (ou no ícone de informação) para detalhes. Use o
+            botão de som para ouvir o ruído.
+          </p>
         </div>
 
-        {/* Estados de carregamento/erro */}
-        {loading && <p className="text-white/90">carregando espécies…</p>}
+        {loading && <p className="text-white/90">Carregando dados…</p>}
         {error && <p className="text-red-200">deu ruim: {error}</p>}
 
-        {/* Grid */}
         {!loading && !error && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            {birds.map((bird) => {
+            {items.map((it) => {
               const fileInputRef = createRef<HTMLInputElement>();
               const handleUpload = () => fileInputRef.current?.click();
 
               return (
                 <Card
-                  key={bird.id}
-                  className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all"
-                  style={{ backgroundColor: bird.backgroundColor }}
+                  key={it.id}
+                  className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-white/60"
+                  style={{ backgroundColor: it.colorName }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openInfo(it)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openInfo(it);
+                    }
+                  }}
+                  aria-label={`Mais informações sobre ${it.part}`}
                 >
                   {/* Imagem + botões */}
                   <div className="relative aspect-square p-3">
                     <img
-                      src={bird.image || "/placeholder.svg"}
-                      alt={bird.name}
-                      className="w-full h-full object-cover rounded-xl cursor-pointer"
-                      onClick={() => playBirdSound(bird.id, bird.audioUrl)}
+                      src={it.image || "/placeholder.svg"}
+                      alt={it.part}
+                      className="w-full h-full object-cover rounded-xl"
                     />
 
                     <div className="absolute top-2 left-2 right-2 flex justify-between">
-                      {/* Som / Mudo */}
+                      {/* Botão Som (toca direto) */}
                       <Button
                         size="icon"
                         variant="ghost"
                         className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
-                        onClick={() => playBirdSound(bird.id, bird.audioUrl)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // não abre o modal
+                          playSound(it.id, it.audioUrl);
+                        }}
                         aria-label={
-                          currentlyPlaying === bird.id
+                          currentlyPlaying === it.id
                             ? "Pausar áudio"
                             : "Tocar áudio"
                         }
+                        disabled={!it.audioUrl}
                       >
-                        {currentlyPlaying === bird.id ? (
+                        {currentlyPlaying === it.id ? (
                           <VolumeOff className="h-4 w-4" />
                         ) : (
                           <Volume2 className="h-4 w-4" />
                         )}
                       </Button>
 
-                      {/* Enviar Foto */}
+                      {/* Botão Informação (abre modal) */}
                       <Button
                         size="icon"
                         variant="ghost"
                         className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
-                        onClick={handleUpload}
-                        aria-label="Enviar foto"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openInfo(it);
+                        }}
+                        aria-label="Informações"
+                        title="Informações"
                       >
-                        <Camera className="h-4 w-4" />
+                        <Info className="h-4 w-4" />
+                        {/* Se preferir letra 'i' pura:
+                        <span className="font-bold text-sm leading-none">i</span> */}
                       </Button>
 
+                      {/* (opcional) manter upload se quiser reaproveitar o fluxo */}
                       <input
                         ref={fileInputRef}
                         type="file"
@@ -207,13 +280,11 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Info */}
+                  {/* Info resumida */}
                   <div className="p-3 pt-0 text-center">
-                    <h3 className="font-bold text-white text-sm">
-                      {bird.name}
-                    </h3>
+                    <h3 className="font-bold text-white text-sm">{it.part}</h3>
                     <p className="text-white text-xs italic opacity-90">
-                      {bird.scientificName}
+                      {it.sector}
                     </p>
                   </div>
                 </Card>
@@ -222,25 +293,34 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Call to Action */}
-        <div className="text-center mt-12 p-8 bg-white rounded-lg shadow-md">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">
-            Viu algum desses seus vizinhos por aí?
-          </h3>
-          <p className="text-gray-600 mb-6">
-            Compartilhe e ajude a sua comunidade a conhecer melhor a vida
-            selvagem local!
-          </p>
-          <a
-            href="https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors"
-          >
-            <Camera className="h-5 w-5" />
-            <span>Mande seu Registro</span>
-          </a>
-        </div>
+        {/* Modal de informações */}
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent className="sm:max-w-lg">
+            {selected && (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="text-xl">{selected.part}</DialogTitle>
+                  <DialogDescription className="text-white/70">
+                    {selected.sector}
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="space-y-4">
+                  {selected.image && (
+                    <img
+                      src={selected.image}
+                      alt={selected.part}
+                      className="w-11/12 md:w-3/4 lg:w-1/2 mx-auto rounded-lg"
+                    />
+                  )}
+                  <p className="leading text-justify whitespace-pre-line ">
+                    {selected.info}
+                  </p>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </main>
     </div>
   );
