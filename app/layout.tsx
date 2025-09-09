@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/next";
-import Script from "next/script"; // 👈 adicione
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,14 +25,12 @@ export default function RootLayout({
     <html lang="pt-BR">
       <head>
         <link rel="icon" href="/favicon.ico" />
-        {/* Script global do AdSense (carrega 1x) */}
-        <Script
-          id="adsbygoogle-loader"
+        {/* Script global do AdSense (SEM next/script) */}
+        <script
           async
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5729046591387079"
-        />
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body className={inter.className}>
         {children}
