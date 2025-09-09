@@ -1,5 +1,5 @@
 "use client";
-
+import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeOff, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -116,6 +116,24 @@ async function loadCarIssues(): Promise<CarIssue[]> {
 }
 
 export default function HomePage() {
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Barulho Car",
+    url: "https://www.barulhocar.com.br/",
+    applicationCategory: "AutomotiveApplication",
+    operatingSystem: "Web",
+    description: "Identifique barulhos do carro e veja possíveis causas.",
+    // Preencha somente se for verdade:
+    // aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: 123 },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
+    publisher: {
+      "@type": "Organization",
+      name: "Barulho Car",
+      logo: "https://i.imgur.com/Pd7HvGv.png",
+    },
+  };
+
   const [items, setItems] = useState<CarIssue[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -317,6 +335,11 @@ export default function HomePage() {
           </DialogContent>
         </Dialog>
       </main>
+      <Script
+        id="ld-webapp"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+      />
     </div>
   );
 }

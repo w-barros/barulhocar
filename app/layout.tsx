@@ -7,13 +7,20 @@ import { Analytics } from "@vercel/analytics/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Barulho Car",
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+  metadataBase: new URL("https://www.barulhocar.com.br"),
+  title: "Barulho Car — Descubra barulhos no seu carro",
+  description:
+    "Use o Barulho Car para identificar e aprender sobre barulhos no seu carro.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "https://www.barulhocar.com.br",
+    title: "Barulho Car",
+    description: "Identifique barulhos do seu carro em segundos.",
+    images: [{ url: "/og.png" }], // coloque um 1200x630 em /public/og.png
   },
-  description: "Descubra e aprenda sobre barulhos no seu carro",
-  generator: "v0.dev",
+  twitter: { card: "summary_large_image" },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
