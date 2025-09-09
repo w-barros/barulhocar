@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, createRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeOff, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -14,19 +14,19 @@ import {
 } from "@/components/ui/dialog";
 
 type CarIssue = {
-  id: number;
-  part: string;
-  sector: string;
-  colorName: string; // hex do fundo
-  image: string;
-  audioUrl: string;
-  info: string;
+  id: number; // id
+  part: string; // CarPart
+  sector: string; // Sector
+  bgColor: string; // Color (hex ou mapeado)
+  image: string; // Img
+  audioUrl: string; // Sound (Drive)
+  info: string; // Info
 };
 
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSURYSnQEuzvHd2YaTx5WOz2_SWRz8WSJGR0S1XebMIACvozgZzdF8e9q7FTMZe_EOMu2F_QsW5h1P1/pub?output=csv";
 
-// --- utilitários: cores, parser e drive link ---
+// Mapa de nomes de cor -> hex
 const colorMap: Record<string, string> = {
   vermelho: "#B81C1C",
   amarelo: "#EAB308",
@@ -39,12 +39,16 @@ const colorMap: Record<string, string> = {
   branco: "#F3F4F6",
 };
 
+// Converte links do Drive para link direto
 function driveViewToDirect(url: string): string {
   if (!url) return url;
-  const m = url.match(/\/d\/([a-zA-Z0-9_-]{10,})\//);
-  return m ? `https://docs.google.com/uc?export=download&id=${m[1]}` : url;
+  const m1 = url.match(/\/d\/([a-zA-Z0-9_-]{10,})\//);
+  const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
+  const id = (m1 && m1[1]) || (m2 && m2[1]);
+  return id ? `https://docs.google.com/uc?export=download&id=${id}` : url;
 }
 
+// Split de linha CSV com suporte a aspas/vírgulas
 function splitCSVLine(line: string): string[] {
   const out: string[] = [];
   let cur = "";
@@ -69,13 +73,14 @@ function splitCSVLine(line: string): string[] {
   return out.map((s) => s.trim());
 }
 
+// Parser do CSV
 const parseCSV = (csv: string): CarIssue[] => {
   const lines = csv.split(/\r?\n/).filter(Boolean);
   if (!lines.length) return [];
   const rawHeader = lines[0].replace(/^\uFEFF/, "");
   const headers = splitCSVLine(rawHeader);
-
   const idx = (n: string) => headers.findIndex((h) => h.trim() === n);
+
   const idIdx = idx("id");
   const partIdx = idx("CarPart");
   const sectorIdx = idx("Sector");
@@ -86,33 +91,21 @@ const parseCSV = (csv: string): CarIssue[] => {
 
   return lines.slice(1).map((line) => {
     const cells = splitCSVLine(line);
-    const colorName = (cells[colorIdx] || "").toLowerCase();
+    const colorRaw = (cells[colorIdx] || "").toLowerCase();
     const bg =
-      colorMap[colorName] ||
-      (/#([0-9a-f]{3}|[0-9a-f]{6})/i.test(colorName) ? colorName : "#0F172A");
+      colorMap[colorRaw] ||
+      (/#([0-9a-f]{3}|[0-9a-f]{6})/i.test(colorRaw) ? colorRaw : "#0F172A");
 
     return {
       id: Number(cells[idIdx] || 0),
       part: cells[partIdx] || "",
       sector: cells[sectorIdx] || "",
-      colorName: bg,
+      bgColor: bg,
       image: cells[imgIdx] || "",
-      audioUrl: driveViewToDirect(cells[soundIdx] || ""),
+      audioUrl: driveViewToDirect((cells[soundIdx] || "").trim()),
       info: cells[infoIdx] || "",
     };
   });
-};
-
-const saveLocallyThenRedirect = (file: File, url: string) => {
-  const blobUrl = URL.createObjectURL(file);
-  const a = document.createElement("a");
-  a.href = blobUrl;
-  a.download = `registro-${Date.now()}.jpg`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(blobUrl);
-  setTimeout(() => (window.location.href = url), 400);
 };
 
 async function loadCarIssues(): Promise<CarIssue[]> {
@@ -128,6 +121,8 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
 
   const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
+
+  // ÚNICO <audio> persistente
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [selected, setSelected] = useState<CarIssue | null>(null);
@@ -147,22 +142,43 @@ export default function HomePage() {
     })();
     return () => {
       cancelled = true;
-      audioRef.current?.pause();
-      audioRef.current = null;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
     };
   }, []);
 
-  const playSound = (id: number, audioUrl: string) => {
-    if (!audioUrl) return;
-    if (currentlyPlaying === id) {
-      audioRef.current?.pause();
+  const playSound = async (id: number, rawUrl: string) => {
+    const url = rawUrl?.trim();
+    const audio = audioRef.current;
+    if (!url || !audio) return;
+
+    // Alterna play/pause do mesmo item
+    if (currentlyPlaying === id && !audio.paused) {
+      audio.pause();
       setCurrentlyPlaying(null);
-    } else {
-      audioRef.current?.pause();
-      audioRef.current = new Audio(audioUrl);
-      audioRef.current.play().catch(console.error);
+      return;
+    }
+
+    try {
+      // Reinicia, troca src e toca
+      audio.pause();
+      audio.src = url; // ex.: https://docs.google.com/uc?export=download&id=...
+      audio.currentTime = 0;
+      audio.onerror = () => {
+        setCurrentlyPlaying(null);
+        console.error("Falha ao tocar áudio:", url);
+        alert(
+          "Não consegui tocar este áudio. Verifique se o arquivo está público no Google Drive e em formato suportado (ex.: MP3)."
+        );
+      };
+      audio.onended = () => setCurrentlyPlaying(null);
+
+      await audio.play();
       setCurrentlyPlaying(id);
-      audioRef.current.onended = () => setCurrentlyPlaying(null);
+    } catch (err) {
+      console.error("play() falhou:", err);
     }
   };
 
@@ -192,106 +208,85 @@ export default function HomePage() {
 
         {!loading && !error && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            {items.map((it) => {
-              const fileInputRef = createRef<HTMLInputElement>();
-              const handleUpload = () => fileInputRef.current?.click();
+            {items.map((it) => (
+              <Card
+                key={it.id}
+                className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-white/60"
+                style={{ backgroundColor: it.bgColor }}
+                role="button"
+                tabIndex={0}
+                onClick={() => openInfo(it)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openInfo(it);
+                  }
+                }}
+                aria-label={`Mais informações sobre ${it.part}`}
+              >
+                {/* Imagem + botões */}
+                <div className="relative aspect-square p-3">
+                  <img
+                    src={it.image || "/placeholder.svg"}
+                    alt={it.part}
+                    className="w-full h-full object-cover rounded-xl"
+                  />
 
-              return (
-                <Card
-                  key={it.id}
-                  className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-white/60"
-                  style={{ backgroundColor: it.colorName }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => openInfo(it)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      openInfo(it);
-                    }
-                  }}
-                  aria-label={`Mais informações sobre ${it.part}`}
-                >
-                  {/* Imagem + botões */}
-                  <div className="relative aspect-square p-3">
-                    <img
-                      src={it.image || "/placeholder.svg"}
-                      alt={it.part}
-                      className="w-full h-full object-cover rounded-xl"
-                    />
+                  <div className="absolute top-2 left-2 right-2 flex justify-between">
+                    {/* Botão Som (toca direto) */}
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation(); // não abrir modal
+                        playSound(it.id, it.audioUrl);
+                      }}
+                      aria-label={
+                        currentlyPlaying === it.id
+                          ? "Pausar áudio"
+                          : "Tocar áudio"
+                      }
+                      disabled={!it.audioUrl}
+                    >
+                      {currentlyPlaying === it.id ? (
+                        <VolumeOff className="h-4 w-4" />
+                      ) : (
+                        <Volume2 className="h-4 w-4" />
+                      )}
+                    </Button>
 
-                    <div className="absolute top-2 left-2 right-2 flex justify-between">
-                      {/* Botão Som (toca direto) */}
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
-                        onClick={(e) => {
-                          e.stopPropagation(); // não abre o modal
-                          playSound(it.id, it.audioUrl);
-                        }}
-                        aria-label={
-                          currentlyPlaying === it.id
-                            ? "Pausar áudio"
-                            : "Tocar áudio"
-                        }
-                        disabled={!it.audioUrl}
-                      >
-                        {currentlyPlaying === it.id ? (
-                          <VolumeOff className="h-4 w-4" />
-                        ) : (
-                          <Volume2 className="h-4 w-4" />
-                        )}
-                      </Button>
-
-                      {/* Botão Informação (abre modal) */}
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openInfo(it);
-                        }}
-                        aria-label="Informações"
-                        title="Informações"
-                      >
-                        <Info className="h-4 w-4" />
-                        {/* Se preferir letra 'i' pura:
-                        <span className="font-bold text-sm leading-none">i</span> */}
-                      </Button>
-
-                      {/* (opcional) manter upload se quiser reaproveitar o fluxo */}
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        capture="environment"
-                        className="hidden"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0];
-                          if (!file) return;
-                          saveLocallyThenRedirect(
-                            file,
-                            "https://forms.zohopublic.com/vidavizinha1/form/Envieseuregistro/formperma/IU-7mXWN9XQnURCFwIsJruhID8QpSXGHZ_vSiSKqP4U"
-                          );
-                        }}
-                      />
-                    </div>
+                    {/* Botão Informação (abre modal) */}
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="bg-white/10 hover:bg-white/25 border border-white/20 text-white shadow-lg transition-colors duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openInfo(it);
+                      }}
+                      aria-label="Informações"
+                      title="Informações"
+                    >
+                      <Info className="h-4 w-4" />
+                    </Button>
                   </div>
+                </div>
 
-                  {/* Info resumida */}
-                  <div className="p-3 pt-0 text-center">
-                    <h3 className="font-bold text-white text-sm">{it.part}</h3>
-                    <p className="text-white text-xs italic opacity-90">
-                      {it.sector}
-                    </p>
-                  </div>
-                </Card>
-              );
-            })}
+                {/* Info resumida */}
+                <div className="p-3 pt-0 text-center">
+                  <h3 className="font-bold text-white text-sm">{it.part}</h3>
+                  <p className="text-white text-xs italic opacity-90">
+                    {it.sector}
+                  </p>
+                </div>
+              </Card>
+            ))}
           </div>
         )}
+
+        {/* ÚNICO player persistente (inline ajuda no iOS) */}
+        <audio ref={audioRef} preload="none" playsInline className="hidden" />
 
         {/* Modal de informações */}
         <Dialog open={open} onOpenChange={setOpen}>
@@ -313,7 +308,7 @@ export default function HomePage() {
                       className="w-11/12 md:w-3/4 lg:w-1/2 mx-auto rounded-lg"
                     />
                   )}
-                  <p className="leading text-justify whitespace-pre-line ">
+                  <p className="text-sm leading-relaxed text-justify whitespace-pre-line">
                     {selected.info}
                   </p>
                 </div>
