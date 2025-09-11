@@ -115,6 +115,50 @@ async function loadCarIssues(): Promise<CarIssue[]> {
   return parseCSV(text);
 }
 
+// generate one schema.org script for each car issue
+const schemaScript = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "Barulho Car",
+      url: "https://www.barulhocar.com.br/",
+      description: "Identifique barulhos do carro e veja possíveis causas.",
+      publisher: {
+        "@type": "Organization",
+        name: "Barulho Car",
+        logo: "https://i.imgur.com/Pd7HvGv.png",
+      },
+    },
+  ],
+};
+
+const schemaScriptIssues = async () => {
+  try {
+    const issues = await loadCarIssues();
+    const issueSchemas = issues.map((it) => ({
+      "@type": "CreativeWork",
+      name: it.part,
+      about: it.info,
+      image: it.image,
+      url: "https://www.barulhocar.com.br/",
+      description: `Barulho no(a) ${it.part} (${it.sector})`,
+      inLanguage: "pt-BR",
+      keywords: [it.part, it.sector, "barulho", "carro"],
+      publisher: {
+        "@type": "Organization",
+        name: "Barulho Car",
+        logo: "https://i.imgur.com/Pd7HvGv.png",
+      },
+    }));
+    schemaScript["@graph"].push(...issueSchemas);
+  } catch (e) {
+    console.error("Erro ao gerar schema dos issues:", e);
+  } finally {
+    return JSON.stringify(schemaScript);
+  }
+};
+
 export default function HomePage() {
   const ld = {
     "@context": "https://schema.org",
@@ -339,6 +383,11 @@ export default function HomePage() {
         id="ld-webapp"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+      />
+      <Script
+        id="ld-issues"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: schemaScriptIssues() }}
       />
     </div>
   );
