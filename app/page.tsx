@@ -25,8 +25,6 @@ type CarIssue = {
   info: string; // Info
 };
 
-const ld = buildLD(ISSUES_DATA);
-
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSURYSnQEuzvHd2YaTx5WOz2_SWRz8WSJGR0S1XebMIACvozgZzdF8e9q7FTMZe_EOMu2F_QsW5h1P1/pub?output=csv";
 
@@ -137,50 +135,26 @@ const schemaScript = {
   ],
 };
 
-const schemaScriptIssues = async () => {
-  try {
-    const issues = await loadCarIssues();
-    const issueSchemas = issues.map((it) => ({
-      "@type": "CreativeWork",
-      name: it.part,
-      about: it.info,
-      image: it.image,
-      url: "https://www.barulhocar.com.br/",
-      description: `Barulho no(a) ${it.part} (${it.sector})`,
-      inLanguage: "pt-BR",
-      keywords: [it.part, it.sector, "barulho", "carro"],
-      publisher: {
-        "@type": "Organization",
-        name: "Barulho Car",
-        logo: "https://i.imgur.com/Pd7HvGv.png",
-      },
-    }));
-    schemaScript["@graph"].push(...issueSchemas);
-  } catch (e) {
-    console.error("Erro ao gerar schema dos issues:", e);
-  } finally {
-    return JSON.stringify(schemaScript);
-  }
-};
-
 export default function HomePage() {
-  const ld = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Barulho Car",
-    url: "https://www.barulhocar.com.br/",
-    applicationCategory: "AutomotiveApplication",
-    operatingSystem: "Web",
-    description: "Identifique barulhos do carro e veja possíveis causas.",
-    // Preencha somente se for verdade:
-    // aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: 123 },
-    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
-    publisher: {
-      "@type": "Organization",
-      name: "Barulho Car",
-      logo: "https://i.imgur.com/Pd7HvGv.png",
-    },
-  };
+  // const ld = {
+  //   "@context": "https://schema.org",
+  //   "@type": "WebApplication",
+  //   name: "Barulho Car",
+  //   url: "https://www.barulhocar.com.br/",
+  //   applicationCategory: "AutomotiveApplication",
+  //   operatingSystem: "Web",
+  //   description: "Identifique barulhos do carro e veja possíveis causas.",
+  //   // Preencha somente se for verdade:
+  //   // aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: 123 },
+  //   offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
+  //   publisher: {
+  //     "@type": "Organization",
+  //     name: "Barulho Car",
+  //     logo: "https://i.imgur.com/Pd7HvGv.png",
+  //   },
+  // };
+
+  const ld = buildLD(ISSUES_DATA);
 
   const [items, setItems] = useState<CarIssue[]>([]);
   const [loading, setLoading] = useState(true);
