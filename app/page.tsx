@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { buildLD, type IssueRow } from "@/lib/schema-issues";
 import ISSUES_DATA from "@/data/issues";
+import { makeGiantLDString } from "@/lib/schema-giant";
 
 type CarIssue = {
   id: number; // id
@@ -153,6 +154,11 @@ export default function HomePage() {
   //     logo: "https://i.imgur.com/Pd7HvGv.png",
   //   },
   // };
+  const LD_GIANT = makeGiantLDString(ISSUES_DATA, {
+    perItemUrl: (slug) => `https://www.barulhocar.com.br/issues/${slug}`, // opcional
+    trimLongText: true, // recomendado
+    // aggregateRating: { ratingValue: "4.8", ratingCount: 123 },          // use só se for real
+  });
 
   const ld = buildLD(ISSUES_DATA, {
     perItemUrl: (slug) => `https://www.barulhocar.com.br/issues/${slug}`,
@@ -369,9 +375,9 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       /> */}
       <Script
-        id="ld-webapp"
+        id="ld-giant"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        dangerouslySetInnerHTML={{ __html: LD_GIANT }} // já é string minificada
       />
     </div>
   );
