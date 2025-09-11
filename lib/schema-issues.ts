@@ -8,21 +8,31 @@ export type IssueRow = {
 };
 
 const BASE_URL = "https://www.barulhocar.com.br/";
+const ORG_ID = `${BASE_URL}#org`;
+const APP_ID = `${BASE_URL}#app`;
+
 const PUBLISHER = {
   "@type": "Organization",
+  "@id": ORG_ID,
   name: "Barulho Car",
+  // se preferir ImageObject, troque para: { "@type": "ImageObject", url: "..." }
   logo: "https://i.imgur.com/Pd7HvGv.png",
 };
 
 const slugify = (str: string) =>
-  str
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+  str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+     .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
-export function buildLD(data: IssueRow[]) {
+type BuildLdOptions = {
+  /** ex.: (slug) => `${BASE_URL}issues/${slug}` */
+  perItemUrl?: (slug: string) => string;
+  /** Se true, elimina espaços extras nos textos longos */
+  trimLongText?: boolean;
+  /** Se quiser adicionar rating global real do app */
+  aggregateRating?: { ratingValue: string; ratingCount: number };
+};
+
+export function buildLD(data: IssueRow[], opts: BuildLdOptions = {}) {
   const slugCounts = new Map<string, number>();
   const uniqueSlug = (name: string) => {
     const base = slugify(name.trim());
@@ -31,32 +41,57 @@ export function buildLD(data: IssueRow[]) {
     return n > 1 ? `${base}-${n}` : base;
   };
 
-  const websiteNode = {
-    "@type": "WebSite",
+  const appRoot: any = {
+    "@type": "WebApplication",
+    "@id": APP_ID,
     name: "Barulho Car",
     url: BASE_URL,
+    applicationCategory: "AutomotiveApplication",
+    operatingSystem: "Web",
     description: "Identifique barulhos do carro e veja possíveis causas.",
-    publisher: PUBLISHER,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
+    publisher: { "@id": ORG_ID },
   };
 
-  const works = data.map((it) => {
+  if (opts.aggregateRating) {
+    appRoot.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: opts.aggregateRating.ratingValue,
+      ratingCount: opts.aggregateRating.ratingCount,
+    };
+  }
+
+  const issueApps = data.map((it) => {
     const name = it.part.trim();
     const sector = it.sector.trim();
     const slug = uniqueSlug(name);
-    const id = `${BASE_URL}#issue/${slug}`;
+    const itemUrl = opts.perItemUrl ? opts.perItemUrl(slug) : BASE_URL;
+
+    const about = opts.trimLongText ? it.info.replace(/\s+/g, " ").trim() : it.info;
 
     const node: any = {
-      "@type": "CreativeWork",
-      "@id": id,
-      name,
-      about: it.info,
-      image: it.image,
-      url: BASE_URL, // troque para `${BASE_URL}issues/${slug}` se tiver página por item
-      description: `Barulho no(a) ${name} (${sector})`,
+      "@type": "WebApplication",
+      "@id": `${BASE_URL}#issue/${slug}`,
+      // mantém o mesmo “esqueleto” do seu exemplo:
+      name: "Barulho Car",
+      url: itemUrl,
+      applicationCategory: "AutomotiveApplication",
+      operatingSystem: "Web",
+      description: "Identifique barulhos do carro e veja possíveis causas.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "BRL" },
+      publisher: { "@id": ORG_ID },
+
+      // diferenciação por item (herdado de CreativeWork):
+      about,                              // texto explicando o problema
+      image: it.image,                    // imagem do item
       inLanguage: "pt-BR",
       keywords: [name, sector, "barulho", "carro"],
-      publisher: PUBLISHER,
-      mainEntityOfPage: BASE_URL,
+      isPartOf: { "@id": APP_ID },
+      mainEntityOfPage: itemUrl,
+
+      // rótulos úteis:
+      alternateName: `${name}`,
+      additionalType: "https://schema.org/CreativeWork",
     };
 
     if (it.sound) {
@@ -67,11 +102,12 @@ export function buildLD(data: IssueRow[]) {
         inLanguage: "pt-BR",
       };
     }
+
     return node;
   });
 
   return {
     "@context": "https://schema.org",
-    "@graph": [websiteNode, ...works],
+    "@graph": [PUBLISHER, appRoot, ...issueApps],
   };
 }

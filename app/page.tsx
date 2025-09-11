@@ -154,7 +154,13 @@ export default function HomePage() {
   //   },
   // };
 
-  const ld = buildLD(ISSUES_DATA);
+  const ld = buildLD(ISSUES_DATA, {
+    perItemUrl: (slug) => `https://www.barulhocar.com.br/issues/${slug}`,
+    trimLongText: true,
+    // aggregateRating: { ratingValue: "4.8", ratingCount: 123 }, // use só se for real
+  });
+
+  // const ld = buildLD(ISSUES_DATA);
 
   const [items, setItems] = useState<CarIssue[]>([]);
   const [loading, setLoading] = useState(true);
