@@ -12,6 +12,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { buildLD, type IssueRow } from "@/lib/schema-issues";
+import ISSUES_DATA from "@/data/issues";
 
 type CarIssue = {
   id: number; // id
@@ -22,6 +24,8 @@ type CarIssue = {
   audioUrl: string; // Sound (Drive)
   info: string; // Info
 };
+
+const ld = buildLD(ISSUES_DATA);
 
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSURYSnQEuzvHd2YaTx5WOz2_SWRz8WSJGR0S1XebMIACvozgZzdF8e9q7FTMZe_EOMu2F_QsW5h1P1/pub?output=csv";
@@ -385,9 +389,9 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
       <Script
-        id="ld-issues"
+        id="ld-webapp"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: schemaScriptIssues() }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
     </div>
   );
