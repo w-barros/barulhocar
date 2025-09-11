@@ -383,11 +383,11 @@ export default function HomePage() {
           </DialogContent>
         </Dialog>
       </main>
-      <Script
+      {/* <Script
         id="ld-webapp"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
-      />
+      /> */}
       <Script
         id="ld-webapp"
         type="application/ld+json"
