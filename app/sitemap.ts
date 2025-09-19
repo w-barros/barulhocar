@@ -2,5 +2,10 @@
 import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://www.barulhocar.com.br";
-  return [{ url: `${base}/`, lastModified: new Date() }];
+  const now = new Date();
+  return [
+    { url: `${base}/`, lastModified: now },
+    { url: `${base}/sobre`, lastModified: now },
+    { url: `${base}/privacidade`, lastModified: now },
+  ];
 }

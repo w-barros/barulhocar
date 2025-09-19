@@ -11,6 +11,8 @@ import {
   CarFront,
   Share,
   Share2,
+  Shield,
+  Info,
 } from "lucide-react";
 import { useState } from "react";
 // shadcn/ui
@@ -32,10 +34,15 @@ export default function Navbar() {
     // { href: "/", label: "Instagram", icon: Share2 },
     // { href: "/", label: "Início", icon: Home },
     // { href: "/especies", label: "Espécies", icon: Bird },
-    // { href: "/sobre", label: "Sobre", icon: Car },
+    { href: "/sobre", label: "Sobre", icon: Info },
     // este vira o trigger do modal
     // { label: "Mande seu Registro", icon: Camera, modal: true },
     // { href: "/registros", label: "Ver Registros", icon: Images },
+    {
+      href: "/privacidade",
+      label: "Privacidade",
+      icon: Shield,
+    },
     {
       href: "https://forms.zohopublic.com/vidavizinha1/form/FalacomigobbD/formperma/97Zjl4JGQS3gRxjc56xdmjLJNnlhyLauEZe9r2HyhRk",
       label: "Fale Conosco",
