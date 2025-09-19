@@ -249,17 +249,13 @@ export default function HomePage() {
           <h1 className="text-4xl font-semibold md:text-5xl lg:text-7xl text-red-500 mb-4">
             Barulho estranho no carro?
           </h1>
-          <p className="text-white/80 max-w-2xl mx-auto lg:mx-0">
+          <p className="text-white/80  mx-auto lg:mx-0 text-justify">
             O <strong>Barulho Car</strong> ajuda você a identificar rapidamente
             possíveis causas de barulhos, ruídos e vibrações no seu veículo.
-            Explore nossa lista de sintomas, ouça exemplos reais de sons
-            automotivos e descubra informações detalhadas sobre cada parte do
-            carro. Nosso objetivo é facilitar o diagnóstico de problemas
-            automotivos, economizando tempo e dinheiro em oficinas. Clique nos
-            cartões para ver detalhes, dicas e soluções, e utilize o botão de
-            áudio para comparar o barulho do seu carro com sons reais. Mantenha
-            seu veículo seguro e em bom estado com informações confiáveis e
-            acessíveis!
+            Ouça exemplos reais de sons automotivos, veja detalhes sobre cada
+            parte do carro e encontre dicas para resolver problemas. Facilite o
+            diagnóstico e mantenha seu carro em bom estado com informações
+            confiáveis!
           </p>
         </div>
 

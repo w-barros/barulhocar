@@ -70,7 +70,7 @@ export default function PoliticaPrivacidadePage() {
           target="_blank"
           rel="noopener noreferrer"
           className="underline text-red-300 hover:text-red-500"
-          href="https://forms.zohopublic.com/vidavizinha1/form/FalacomigobbD/formperma/97Zjl4JGQS3gRxjc56xdmjLJNnlhyLauEZe9r2HyhRk"
+          href="https://www.barulhocar.com.br/contato"
         >
           Formulario de Contato
         </a>
