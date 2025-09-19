@@ -57,17 +57,13 @@ export default function PoliticaPrivacidadePage() {
         Adotamos medidas para proteger suas informações, mas nenhum sistema é
         100% seguro.
       </p>
-      <h2 className="text-xl font-semibold mt-6 mb-2">6. Contato</h2>
-      <p className="mb-4">
-        Em caso de dúvidas sobre esta política, entre em contato pelo e-mail:
-        contato@barulhocar.com.br
-      </p>
-      <h2 className="text-xl font-semibold mt-6 mb-2">7. Alterações</h2>
+
+      <h2 className="text-xl font-semibold mt-6 mb-2">6. Alterações</h2>
       <p className="mb-4">
         Esta política pode ser atualizada periodicamente. Recomendamos que você
         a revise regularmente.
       </p>
-      <h2 className="text-xl font-semibold mt-6 mb-2">5. Contato</h2>
+      <h2 className="text-xl font-semibold mt-6 mb-2">7. Contato</h2>
       <p className="mb-4">
         Em caso de dúvidas sobre esta política, entre em contato pelo&nbsp;
         <a
@@ -82,6 +78,13 @@ export default function PoliticaPrivacidadePage() {
       <p className="text-xs text-white/60 mt-8">
         Última atualização: Setembro/2025
       </p>
+      <a
+        href="/"
+        className="inline-block mb-6 text-red-400 hover:text-red-600 transition-colors text-sm underline"
+        aria-label="Voltar para a página inicial"
+      >
+        ← Voltar para a página inicial
+      </a>
     </main>
   );
 }

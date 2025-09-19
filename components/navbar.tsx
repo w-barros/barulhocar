@@ -38,17 +38,8 @@ export default function Navbar() {
     // este vira o trigger do modal
     // { label: "Mande seu Registro", icon: Camera, modal: true },
     // { href: "/registros", label: "Ver Registros", icon: Images },
-    {
-      href: "/privacidade",
-      label: "Privacidade",
-      icon: Shield,
-    },
-    {
-      href: "https://forms.zohopublic.com/vidavizinha1/form/FalacomigobbD/formperma/97Zjl4JGQS3gRxjc56xdmjLJNnlhyLauEZe9r2HyhRk",
-      label: "Fale Conosco",
-      icon: Mail,
-      external: true,
-    },
+    { href: "/privacidade", label: "Privacidade", icon: Shield },
+    { href: "/contato", label: "Contato", icon: Mail },
   ];
 
   return (
@@ -105,20 +96,7 @@ export default function Navbar() {
                   );
                 }
 
-                if (item.external) {
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center space-x-2 text-gray-600 hover:text-red-700 transition-colors"
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </a>
-                  );
-                }
+                // Não há mais links externos
 
                 return (
                   <Link
@@ -173,20 +151,7 @@ export default function Navbar() {
                   );
                 }
 
-                if (item.external) {
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 text-gray-600 hover:text-red-600 transition-colors"
-                      title={item.label}
-                    >
-                      <Icon className="h-5 w-5" />
-                    </a>
-                  );
-                }
+                // Não há mais links externos
 
                 return (
                   <Link
