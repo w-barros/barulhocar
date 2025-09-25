@@ -96,3 +96,49 @@ body {
 .cursive {
   font-family: "Playfair Display", "Georgia", "Times New Roman", serif;
 }
+
+@layer components {
+  .main-header {
+    @apply font-bold leading-tight text-3xl max-w-2xl;
+  }
+  @screen sm {
+    .main-header {
+      @apply text-3xl;
+    }
+  }
+  @screen md {
+    .main-header {
+      @apply text-4xl;
+    }
+  }
+  @screen lg {
+    .main-header {
+      @apply text-5xl;
+    }
+  }
+
+  .sub-header {
+    @apply font-bold leading-snug text-xl;
+  }
+  @screen sm {
+    .sub-header {
+      @apply text-2xl;
+    }
+  }
+  @screen md {
+    .sub-header {
+      @apply text-3xl;
+    }
+  }
+  @screen lg {
+    .sub-header {
+      @apply text-4xl;
+    }
+  }
+}
+
+.label {
+}
+
+.input {
+}

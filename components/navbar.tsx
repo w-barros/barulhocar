@@ -13,6 +13,11 @@ import {
   Share2,
   Shield,
   Info,
+  Handshake,
+  BookCheck,
+  Scroll,
+  LayoutGrid,
+  FileCheck,
 } from "lucide-react";
 import { useState } from "react";
 // shadcn/ui
@@ -28,8 +33,27 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const navItems = [
-    { href: "/", label: "Compartilhar", icon: Share2 },
-    // { href: "/", label: "Facebook", icon: Share2 },
+    // { href: "/", label: "Compartilhar", icon: Share2 },
+    {
+      href: "/",
+      label: "Barulhos",
+      icon: LayoutGrid,
+    },
+    {
+      href: "/guia-compra-e-venda",
+      label: "Guia de Compra e Venda",
+      icon: BookCheck,
+    },
+    {
+      href: "/guia-compra-e-venda",
+      label: "Modelo Contrato",
+      icon: Scroll,
+    },
+    {
+      href: "/guia-compra-e-venda",
+      label: "Modelo Vistoria",
+      icon: FileCheck,
+    },
     // { href: "/", label: "WhatsApp", icon: Share2 },
     // { href: "/", label: "Instagram", icon: Share2 },
     // { href: "/", label: "Início", icon: Home },
@@ -44,15 +68,15 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white shadow-md sticky top-0 z-50">
+      <nav className="bg-red-500  sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-[#B81C1C] rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
                 <CarFront className="h-7 w-7 text-[#FFFFFF]" />
               </div>
-              <span className="font-bold text-red-700 text-3xl md:text-3xl ">
+              <span className="font-bold text-white text-3xl md:text-3xl ">
                 Barulho Car
               </span>
             </Link>
@@ -102,7 +126,7 @@ export default function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href!}
-                    className="flex items-center space-x-2 text-gray-600 hover:text-red-700 transition-colors"
+                    className="flex items-center space-x-2 text-white hover:text-red-100 transition-colors font-semibold"
                   >
                     <Icon className="h-4 w-4" />
                     <span>{item.label}</span>
@@ -157,7 +181,7 @@ export default function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href!}
-                    className="p-2 text-gray-600 hover:text-red-600 transition-colors"
+                    className="p-2 text-white hover:text-white transition-colors"
                     title={item.label}
                   >
                     <Icon className="h-5 w-5" />
