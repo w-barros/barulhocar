@@ -45,7 +45,7 @@ export default function Navbar() {
       icon: BookCheck,
     },
     {
-      href: "/guia-compra-e-venda",
+      href: "/formulario-contrato",
       label: "Modelo Contrato",
       icon: Scroll,
     },
