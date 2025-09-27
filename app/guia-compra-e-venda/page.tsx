@@ -12,45 +12,44 @@ export default function ContratoCompraEVenda() {
 
       <main className="container mx-auto px-4 py-8 bg-white max-w-5xl">
         <header className="mb-8">
-          <h1 className="main-header">Guia de Compra e Venda de Carros</h1>
+          <h1 className="main-header">Guia de Compra e Venda de Veículos</h1>
           <p className="mt-2 text-gray-600">
-            [texto 1] Entenda o essencial e gere um contrato preenchido em
-            minutos. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum. Labubu
+            Entenda o essencial para adquirir ou vender um veículo e gere 
+            um contrato preenchido em poucos minutos. 
+            Você sabia que uma dívida do dono anterior pode fazer com que você 
+            perca o carro que você comprou, mesmo depois de anos? 
+            E se a outra parte decide recusar a responsabilidade sobre algum 
+            problema do veículo, como provar a real situação do veículo à época
+            da venda?
+            Estes e outros problemas podem ser evitados com alguns cuidados simples: 
+            fazer o levantamento da documentação e um contrato adequado. Use o guia
+            BarulhoCar, preencha o formulário e gere gratuitamente seu contrato de 
+            compra e venda!
+    
+            
           </p>
         </header>
 
         <section aria-labelledby="sec-importante" className=" prose max-w-none">
           <h2 className="mt-6 sub-header">Vai comprar ou vender um carro?</h2>
           <p className="mt-3">
-            [texto 2] Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor…Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.
+            Quais documentos são importantes? O que olhar no carro? Como me proteger? 
+            Calma! Não entre em pânico! Siga este passo-a-passo e se livre de preocupações!
           </p>
 
           <h2 className="mt-7 sub-header">O que é necessário?</h2>
           <p className="mt-3">
-            [texto 3] Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor…
+            Revise a documentação do veículo, tire as certidões nos órgãos competentes, faça uma vistoria para conhecer as condições do veículo e, por fim, firme por escrito o preço, condições de pagamento e forma de entrega. Siga abaixo o guia:
           </p>
 
           <ol className="mt-2 list-decimal ml-5 space-y-5 pl-5">
             <li className="mt-2">
               <h3 className="text-xl font-bold">Faça uma Vistoria no carro</h3>
               <p>
-                [texto 4] Uma vistoria é essencial para entender e registrar a
-                situação do Carro no momento da transação, protegendo ambas as
-                partes de situações chatonildas no futuro. Nós disponilizamos
-                gratuitamente este modelo de Vistoria que gera um documento PDF
-                ao termino do preencimento, que deve ser feito presencialmente
-                no Carro (pode ser feito pelo Celular).
+                Uma vistoria é essencial para entender e registrar a situação do Veículo no momento da transação, protegendo ambas as partes de situações problemáticas no futuro. 
+                Acesse pelo celular e utilize gratuitamente o modelo de Vistoria BarulhoCar. 
+                Após finalizar a vistoria, que sugerimos ser feita na presença do comprador e do vendedor, baixe em seu celular o arquivo gerado ou anexe-o diretamente no contrato de compra e venda.
+         
                 <a
                   className="underline underline-3 text-blue-600 underline-offset-2"
                   href="https://portalservicos.senatran.serpro.gov.br/#/home"
@@ -65,14 +64,13 @@ export default function ContratoCompraEVenda() {
               <h3 className="text-xl font-bold">2 Testemunhas</h3>
               <p>
                 {" "}
-                [texto 5]
+                Em contratos impressos e assinados manualmente, a assinatura de duas testemunhas é essencial para que o contrato possa ser executado.
                 <span className="underline decoration-solid font-semibold">
-                  Para o contrato assinado digitalmente pelo iti.gov.br, não é
-                  necessária a participação de Testemunhas
-                </span>{" "}
-                , conforme lei 13.105/2015, art. 784, §4º. Caso você opte por
-                imprimir e assinar manualmente, é necessária a assinatura de
-                duas (02) testemunhas.
+                  Para o contrato assinado digitalmente por ferramentas como o <a className="underline underline-3 text-blue-600 underline-offset-2"
+                  href="https://www.gov.br/pt-br/servicos/assinatura-eletronica">
+                  ‎ assinador do gov.br
+                </a>a (), não é necessário a participação de Testemunhas
+                </span>{" "}, conforme lei 13.105/2015, art. 784, §4º. 
               </p>
             </li>
 
@@ -81,31 +79,29 @@ export default function ContratoCompraEVenda() {
                 Consulta CRLV (Documento do Carro)
               </h3>
               <p>
-                [texto 6] O Vendedor deve apresentar ao Comprador a CRLV
-                (Documento do Carro). O Comprador deve consultar X, Y e Z com
+                O Vendedor deve apresentar ao Comprador a CRLV (Documento do Carro). Neste documento, com o uso do aplicativo VIO da Serpro (Gratuito), você pode ler o QR Code e fazer uma consulta atualizada de bloqueios e gravames do veículo.
                 esses dados.
+                Verifique se o nº do Chassi e do Motor conferem entre o documento e o carro (confira o guia de vistoria), e utilize os dados para consultar o Senatran sobre furto e gravames.
+                  <a
+                  className="underline underline-3 text-blue-600 underline-offset-2"
+                  href="https://play.google.com/store/apps/details?id=br.gov.serpro.lince&hl=pt_BR"
+                >
+                  ‎ Loja de aplicativos Android
+                </a>
+                   <a
+                  className="underline underline-3 text-blue-600 underline-offset-2"
+                  href="https://apps.apple.com/br/app/vio-qr-seguro/id1218953994"
+                >
+                  ‎ Loja de aplicativos Apple Store
+                </a>
               </p>
             </li>
-
-            <li className="mt-2">
-              <h3 className="text-xl font-bold">
-                Emita Certidão Negativa DETRAN
-              </h3>
-              <p>
-                [texto 7] Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit, sed do eiusmod tempor…
-              </p>
-              <div>
-                <Select />
-              </div>
-            </li>
-
+            
             <li className="mt-2">
               <h3 className="text-xl font-bold">Consulta no SENATRAN</h3>
               <p>
-                É importante consultar a placa e RENAVAN do veículo no SENATRAN
-                pra saber se a ratazana proprietaria do mesmo não esta jurada de
-                morte pela polícia. Acesse aqui{" "}
+                Utilize os dados da CRLV (Renavan, placa e CPF do proprietário) para consultar sobre furtos e bloqueios.
+                Acesse aqui{" "}
                 <a
                   className="underline underline-3 text-blue-600 underline-offset-2"
                   href="https://portalservicos.senatran.serpro.gov.br/#/home"
